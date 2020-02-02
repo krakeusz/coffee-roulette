@@ -1,0 +1,18 @@
+{% extends "matcher/index.html" %}
+
+{% block content %}
+
+{% if roulettes %}
+    <h1>
+        Active roulettes
+    </h1>
+    <ul>
+    {% for r in roulettes %}
+        <li><a href="{% url 'matcher:roulette' r.id %}">{{ r }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No roulettes active. <a href="{% url 'admin:matcher_roulette_add' %}">Create a new roulette</a></p>
+{% endif %}
+
+{% endblock %}

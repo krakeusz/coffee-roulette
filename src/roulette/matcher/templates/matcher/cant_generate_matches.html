@@ -1,0 +1,14 @@
+{% extends "matcher/index.html" %}
+
+{% block content %}
+
+<h1>Error</h1>
+Matches can't be generated. This could be because of one of the following reasons:
+<ul>
+    <li>The voting hasn't ended yet.</li>
+    <li>Matches have been already generated.</li>
+</ul>
+
+<a href="{% url 'matcher:roulette' roulette.pk %}">Go back to roulette status.</a>
+
+{% endblock %}

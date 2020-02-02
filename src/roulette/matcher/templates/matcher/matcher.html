@@ -1,0 +1,33 @@
+{% extends "matcher/index.html" %}
+
+{% block content %}
+
+<h1>Roulette results</h1>
+<p>These haven't been saved yet. </p>
+{% if matches %}
+    <ol>
+    {% for group in matches %}
+        <li>
+            {% for user in group %}
+                {% if not forloop.first %} - {% endif %}
+                {{ user.name }}
+            {% endfor %}
+        </li>
+    {% endfor %}
+    </ol>
+    <form action="{% url 'matcher:submit' roulette.pk %}" method="post">
+        {% csrf_token %}
+        {% for group in matches %}
+            {% for user in group %}
+                <input type="hidden" name="user{{ user.id }}" value="{{ forloop.parentloop.counter }}" />
+            {% endfor %}
+        {% endfor %}
+        <input type="submit" value="Accept and save" />
+    </form>
+    <p><a href="{% url 'matcher:run' roulette.pk %}">Run the roulette again</a></p>
+
+{% else %}
+    No matches generated. Maybe there were not enough participating users?
+{% endif %}
+<a href="{% url 'matcher:roulette' roulette.pk %}">Go back to roulette status.</a>
+{% endblock %}

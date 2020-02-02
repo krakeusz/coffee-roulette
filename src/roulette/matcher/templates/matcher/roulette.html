@@ -1,0 +1,53 @@
+{% extends "matcher/index.html" %}
+
+{% block content %}
+
+<h1>Roulette status</h1>
+<p>{{ pretty_state }}</p>
+
+<h1>Matches</h1>
+{% if matches %}
+    <ol>
+        {% for group in matches %}
+            <li>
+                {% for user in group %}
+                    {% if not forloop.first %} - {% endif %}
+                    {{ user.name }}
+                {% endfor %}
+            </li>
+        {% endfor %}
+        </ol>
+{% else %}
+    <p>No matches generated yet.
+    {% if roulette.canAdminGenerateMatches %}
+        <a href="{% url 'matcher:run' roulette.pk %}">Run the roulette</a>
+    {% else %}
+        You'll be able to generate matches as soon as voting ends.
+    {% endif %}
+    </p>
+{% endif %}
+
+<h2>Votes</h2>
+{% if votes %}
+    <ul>
+    {% for v in votes %}
+        <li>
+        {{ v.user.name }}
+        {% if v.choice == 'Y' %}
+            has voted YES
+        {% elif v.choice == 'N' %}
+            has voted NO
+        {% else %}
+            has not voted yet
+        {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+    {% if roulette.canAdminChangeVotes %}
+        <p>You can <a href="{% url 'admin:matcher_roulette_change' roulette.pk %}">change the votes here</a>.</p>
+    {% endif %}
+{% else %}
+    <p>No votes yet.</p>
+{% endif %}
+
+{% endblock %}
