@@ -9,9 +9,7 @@
 {% load static %}
   <link rel="manifest" href="{% static 'matcher/site.webmanifest' %}">
   <link rel="apple-touch-icon" href="{% static 'matcher/icon.png' %}">
-  <!-- Place favicon.ico in the root directory -->
-
-  <link rel="stylesheet" href="{% static 'matcher/css/normalize.css' %}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'matcher/css/main.css' %}">
 
   <meta name="theme-color" content="#fafafa">
@@ -21,18 +19,45 @@
   <!--[if IE]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
   <![endif]-->
-
-  <nav>
-      <span><a href="{% url 'matcher:current' %}">Current roulette</a></span>
-      <span><a href="{% url 'admin:matcher_roulette_add' %}">New roulette</a></span>
-      <span><a href="{% url 'admin:index' %}">Other settings</a></span>
-  </nav>
-  <section>
+ 
+  <header class="header"><div class="container-lg">
+    <div class="logo">
+      Coffee Roulette
+    </div>
+    <nav class="navigation-parent">
+      <ul class="nav nav-pills nav-justified">
+        <li class="nav-item">
+          <a class="nav-link {% block active-current %}{% endblock %}" href="{% url 'matcher:current' %}">Current roulettes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% block active-new-roulette %}{% endblock %}" href="{% url 'admin:matcher_roulette_add' %}">New roulette</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link {% block active-admin %}{% endblock %}" href="{% url 'admin:index' %}">Other settings</a>
+        </li>
+      </ul>
+    </nav>
+  </div></header>
+  <section class="content container-lg">
       {% block content %}{% endblock %}
   </section>
-  <script src="{% static 'matcher/js/vendor/modernizr-3.8.0.min.js' %}"></script>
+
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.4.1.min.js"><\/script>')</script>
+  <script>window.jQuery || document.write('<script src="{% static "matcher/js/vendor/jquery-3.4.1.min.js" %}"><\/script>')</script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script>window.Popper || document.write('<script src="{% static "matcher/js/vendor/popper.min.js" %}"><\/script>')</script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <script>$.fn.modal || document.write('<script src="{% static "matcher/js/vendor/bootstrap.min.js" %}">\x3C/script>')</script>
+  <div class="bootstrap-css-helper-hidden" class="collapse"></div>
+  <script>
+      // Bootstrap CSS Fallback
+      $(function () {
+          if ($('.bootstrap-css-helper-hidden').is(':visible') === true) {
+              $('<link rel="stylesheet" href="{% static "matcher/css/vendor/bootstrap.min.css" %}" />').appendTo('head');
+          }
+      });
+  </script>
+
   <script src="{% static 'matcher/js/plugins.js' %}"></script>
   <script src="{% static 'matcher/js/main.js' %}"></script>
 </body>

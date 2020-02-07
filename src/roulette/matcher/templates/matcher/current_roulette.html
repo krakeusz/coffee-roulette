@@ -1,11 +1,13 @@
 {% extends "matcher/index.html" %}
 
+{% block active-current %}active{% endblock %}
+
 {% block content %}
 
 {% if roulettes %}
-    <h1>
+    <h2>
         Active roulettes
-    </h1>
+    </h2>
     <ul>
     {% for r in roulettes %}
         <li><a href="{% url 'matcher:roulette' r.id %}">{{ r }}</a></li>
