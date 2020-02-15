@@ -7,8 +7,6 @@ from .algorithms import generate_matches_montecarlo, merge_matches
 from .models import Match, Roulette, RouletteUser, PenaltyForGroupingWithForbiddenUser, matching_graph
 import re
 
-
-
 def current_roulette(request):
     roulettes = Roulette.objects.filter(coffee_deadline__gte=timezone.now()).all()
     context = {'roulettes': roulettes}
@@ -16,7 +14,9 @@ def current_roulette(request):
 
 def roulette(request, roulette_id):
     r = get_object_or_404(Roulette, pk=roulette_id)
-    context = {'roulette': r, 'pretty_state': r.getPrettyState, 'votes': r.vote_set.order_by('user__name'),
+    votes = r.vote_set.order_by('user__name')
+    context = {'roulette': r, 'pretty_state': r.getPrettyState, 'votes_yes': votes.filter(choice='Y'),
+               'votes_no': votes.filter(choice='N'), 'votes_unknown': votes.filter(choice='0'),
               'matches': merge_matches(r.match_set.all()) }
     return render(request, 'matcher/roulette.html', context)
 

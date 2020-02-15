@@ -29,3 +29,8 @@
 .row+.row {
     margin-top: 1.5rem;
 }
+
+.row h2 {
+    margin-top: 1.0rem;
+    margin-bottom: 1.0rem;
+}
