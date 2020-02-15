@@ -75,10 +75,29 @@ class Match(models.Model):
         return "Match of " + str(self.user_a) + " with " + str(self.user_b) + " on " + str(self.roulette)
 
 class ExclusionGroup(models.Model):
-    user = models.ManyToManyField(RouletteUser)
+    users = models.ManyToManyField(RouletteUser)
+    custom_name = models.CharField(max_length=128, blank=True, help_text="If left empty, it will be automatically generated.")
+
+    def __str__(self):
+        if self.custom_name == "":
+            users = self.users.order_by('name').all()
+            if len(users) == 0:
+                return "Empty exclusion group"
+            return ", ".join([user.name for user in users])
+        return self.custom_name
+
 
 class PenaltyGroup(models.Model):
-    user = models.ManyToManyField(RouletteUser)
+    users = models.ManyToManyField(RouletteUser)
+    custom_name = models.CharField(max_length=128, blank=True, help_text="If left empty, it will be automatically generated.")
+
+    def __str__(self):
+        if self.custom_name == "":
+            users = self.users.order_by('name').all()
+            if len(users) == 0:
+                return "Empty penalty group"
+            return ", ".join([user.name for user in users])
+        return self.custom_name
 
 class SingletonModel(models.Model):
     """ Singleton Django Model """
@@ -136,7 +155,7 @@ def matching_graph(users):
         user_ids_excluded = set()
         user_ids_excluded.add(user.id)
         # Exclude users from exclusion groups
-        groups = ExclusionGroup.objects.filter(user__id = user.id).all()
+        groups = ExclusionGroup.objects.filter(users__id = user.id).all()
         for group in groups:
             for excluded_user in RouletteUser.objects.filter(exclusiongroup__id = group.id):
                 user_ids_excluded.add(excluded_user.id)
@@ -156,7 +175,7 @@ def matching_graph(users):
                 continue
             penalty = 0.0
             # And calculate the weights for them - penalty for penalty group
-            groups_user2 = PenaltyGroup.objects.filter(user__id = user2.id).all()
+            groups_user2 = PenaltyGroup.objects.filter(users__id = user2.id).all()
             for group in groups_user2:
                 if RouletteUser.objects.filter(penaltygroup__id = group.id).filter(id=user.id).exists():
                     penalty += penalty_for_penalty_group
