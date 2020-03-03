@@ -34,6 +34,17 @@ class Roulette(models.Model):
         for yes_vote in self.vote_set.filter(choice='Y').select_related('user'):
             users.append(yes_vote.user)
         return users
+    
+    def getShortState(self):
+        now = timezone.now()
+        if now < self.vote_deadline:
+            return "VOTING"
+        elif self.matchings_found_on is None:
+            return "MATCH NOW"
+        elif now < self.coffee_deadline:
+            return "COFFEE"
+        else:
+            return "FINISHED"
 
     def getPrettyState(self):
         now = timezone.now()
@@ -42,12 +53,38 @@ class Roulette(models.Model):
                 "The voting will end on " + str(timezone.localtime(self.vote_deadline)) + "."
         elif self.matchings_found_on is None:
             return "Voting has ended. Please generate matchings now. " \
-                "Coffee deadline is on " + str(timezone.localtime(self.coffee_deadline)) + ". Please note that the system doesn't care when or whether the users meet."
+                "Coffee deadline is on " + str(timezone.localtime(self.coffee_deadline)) + "."
         elif now < self.coffee_deadline:
             return "Matching has been done. Now it's the time for the users to meet. " \
-                "Coffee deadline is on " + str(timezone.localtime(self.coffee_deadline)) + ". Please note that the system doesn't care when or whether the users meet."
+                "Coffee deadline is on " + str(timezone.localtime(self.coffee_deadline)) + "."
         else:
             return "This coffee roulette has ended on " + str(timezone.localtime(self.coffee_deadline)) + "."
+    
+    def __timediff__(self, diff):
+        if diff.days == 0:
+            if diff.seconds < 60:
+                return "less than a minute"
+            elif diff.seconds < 120:
+                return "1 minute"
+            elif diff.seconds < 3600:
+                return "{0} minutes".format((diff.seconds // 60) % 60)
+            else:
+                return "{0} hour(s) {1} minute(s)".format(diff.seconds // 3600, (diff.seconds // 60) % 60)
+        elif diff.days <= 1:
+            return "1 day"
+        elif diff.days <= 365:
+            return "{0} days".format(diff.days)
+        else:
+            return "{0} year(s) {1} day(s)".format(diff.days // 365, diff.days % 365)
+
+    def getRemainingString(self):
+        now = timezone.now()
+        if now < self.vote_deadline:
+            return self.__timediff__(self.vote_deadline - now) + " until voting ends"
+        elif now < self.coffee_deadline:
+            return self.__timediff__(self.coffee_deadline - now) + " until coffee ends"
+        else:
+            return "coffee ended " + self.__timediff__(now - self.coffee_deadline) + " ago"
 
 class Vote(models.Model):
     roulette = models.ForeignKey(Roulette, on_delete=models.CASCADE)

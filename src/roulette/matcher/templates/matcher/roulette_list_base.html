@@ -1,0 +1,59 @@
+{% extends "matcher/index.html" %}
+
+{% block active-current %}active{% endblock %}
+
+{% block content %}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link {% block active-roulette-list-active %}{% endblock %}" href="{% url 'matcher:list_active' %}">Active</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% block active-roulette-list-archive %}{% endblock %}" href="{% url 'matcher:list_archive' %}">Archive</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% block active-roulette-list-all %}{% endblock %}" href="{% url 'matcher:list_all' %}">All</a>
+    </li>
+</ul>
+
+{% if roulettes %}
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Status</th>
+                <th scope="col">Remaining</th>
+                <th scope="col">Users</th>
+                <th scope="col">YES</th>
+                <th scope="col">NO</th>
+                <th scope="col">no vote</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for r in roulettes %}
+            {% if r.getShortState == "MATCH NOW" %}
+            <tr class="table-warning">
+            {% elif r.getShortState == "FINISHED" %}
+            <tr class="table-secondary">
+            {% else %}
+            <tr>
+            {% endif %}
+                <th scope="row">{{ r.id }}</th>
+                <td data-toggle="tooltip" data-container="body" title="{{ r.getPrettyState }}">{{ r.getShortState }}</td>
+                <td data-toggle="tooltip" data-container="body" title="{{ r.getPrettyState }}" class="text-muted">{{ r.getRemainingString }}</td>
+                <td>{{ r.total_users }}</td>
+                <td>{{ r.votes_yes }}</td>
+                <td>{{ r.votes_no }}</td>
+                <td>{{ r.votes_unknown }}</td>
+                <td><a href="{% url 'matcher:roulette' r.id %}" class="btn btn-primary">Details</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+        
+{% else %}
+    <p>No roulettes active. <a href="{% url 'admin:matcher_roulette_add' %}" class="btn btn-primary">Create a new roulette</a></p>
+{% endif %}
+
+{% endblock %}

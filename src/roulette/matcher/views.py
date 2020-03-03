@@ -7,10 +7,28 @@ from .algorithms import generate_matches_montecarlo, merge_matches
 from .models import Match, Roulette, RouletteUser, PenaltyForGroupingWithForbiddenUser, matching_graph
 import re
 
-def current_roulette(request):
-    roulettes = Roulette.objects.filter(coffee_deadline__gte=timezone.now()).all()
-    context = {'roulettes': roulettes}
-    return render(request, 'matcher/current_roulette.html', context)
+def insert_roulette_data_columns(roulettes):
+    for r in roulettes:
+        votes = r.vote_set.order_by('user__name')
+        r.votes_yes = len(votes.filter(choice='Y'))
+        r.votes_no = len(votes.filter(choice='N'))
+        r.votes_unknown = len(votes.filter(choice='0'))
+        r.total_users = r.votes_yes + r.votes_no + r.votes_unknown
+
+def roulette_list_active(request):
+    roulettes = Roulette.objects.filter(coffee_deadline__gte=timezone.now()).order_by("-id").all()
+    insert_roulette_data_columns(roulettes)
+    return render(request, 'matcher/roulette_list_active.html', {'roulettes': roulettes})
+
+def roulette_list_archive(request):
+    roulettes = Roulette.objects.filter(coffee_deadline__lt=timezone.now()).order_by("-id").all()
+    insert_roulette_data_columns(roulettes)
+    return render(request, 'matcher/roulette_list_archive.html', {'roulettes': roulettes})
+
+def roulette_list_all(request):
+    roulettes = Roulette.objects.order_by("-id").all()
+    insert_roulette_data_columns(roulettes)
+    return render(request, 'matcher/roulette_list_all.html', {'roulettes': roulettes})
 
 def roulette(request, roulette_id):
     r = get_object_or_404(Roulette, pk=roulette_id)

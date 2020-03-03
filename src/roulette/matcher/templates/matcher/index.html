@@ -27,7 +27,7 @@
     <nav class="navigation-parent">
       <ul class="nav nav-pills nav-justified">
         <li class="nav-item">
-          <a class="nav-link {% block active-current %}{% endblock %}" href="{% url 'matcher:current' %}">Current roulettes</a>
+          <a class="nav-link {% block active-current %}{% endblock %}" href="{% url 'matcher:list_active' %}">Active roulettes</a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% block active-new-roulette %}{% endblock %}" href="{% url 'admin:matcher_roulette_add' %}">New roulette</a>
