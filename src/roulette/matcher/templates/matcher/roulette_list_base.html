@@ -53,7 +53,7 @@
     </table>
         
 {% else %}
-    <p>No roulettes active. <a href="{% url 'admin:matcher_roulette_add' %}" class="btn btn-primary">Create a new roulette</a></p>
+        <p class="mt-3">No roulettes. <a href="{% url 'admin:matcher_roulette_add' %}" class="btn btn-primary">Create a new roulette</a></p>
 {% endif %}
 
 {% endblock %}
