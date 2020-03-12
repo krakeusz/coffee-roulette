@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import Roulette, Vote, Match, RouletteUser, ExclusionGroup, PenaltyGroup, get_last_roulette, matching_graph
+from .models import Roulette, Vote, Match, RouletteUser, ExclusionGroup, PenaltyGroup, PenaltyForNumberOfMatches, get_last_roulette, matching_graph
 
 def create_natural_number_users(n_users):
     for i in range(1, n_users+1):
@@ -91,7 +91,7 @@ class RouletteModelTests(TestCase):
 
 class MatchingGraphGenerationTests(TestCase):
 
-    def test_generates_full_graph_for_no_exclusions(self):
+    def test_full_graph_for_no_exclusions(self):
         user_count = 10
         users = create_natural_number_users(user_count)
         g = GraphAnalyzer(matching_graph(users), self)
@@ -101,7 +101,7 @@ class MatchingGraphGenerationTests(TestCase):
                     g.assertAndRemoveEdge(i, j, 0)
         g.assertNoEdgesLeft()
     
-    def test_generates_graph_for_exclusion_groups(self):
+    def test_graph_for_exclusion_groups(self):
         user_count = 5
         users = create_natural_number_users(user_count)
         create_groups_modulo_k(user_count, 2, ExclusionGroup)
@@ -114,7 +114,7 @@ class MatchingGraphGenerationTests(TestCase):
         g.assertAndRemoveTwoEdges(4, 5, 0)
         g.assertNoEdgesLeft()
     
-    def test_generates_graph_for_penalty_groups(self):
+    def test_graph_for_penalty_groups(self):
         user_count = 3
         users = create_natural_number_users(user_count)
         create_groups_modulo_k(user_count, 2, PenaltyGroup)
@@ -124,12 +124,12 @@ class MatchingGraphGenerationTests(TestCase):
         g.assertAndRemoveTwoEdges(2, 3, 0)
         g.assertNoEdgesLeft()
     
-    def test_generates_graph_for_second_roulette(self):
+    def test_graph_for_second_roulette_has_first_roulette_exclusions(self):
         user_count = 4
         users = create_natural_number_users(user_count)
-        previousRoulette = Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
-        create_match(previousRoulette, users[0].id, users[1].id)
-        create_match(previousRoulette, users[2].id, users[3].id)
+        firstRoulette = Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
+        create_match(firstRoulette, users[0].id, users[1].id)
+        create_match(firstRoulette, users[2].id, users[3].id)
         g = GraphAnalyzer(matching_graph(users), self)
         # Graph should not contain edges between previously matched users
         g.assertAndRemoveTwoEdges(1, 3)
@@ -137,7 +137,26 @@ class MatchingGraphGenerationTests(TestCase):
         g.assertAndRemoveTwoEdges(2, 3)
         g.assertAndRemoveTwoEdges(2, 4)
         g.assertNoEdgesLeft()
+    
+    def test_graph_for_third_roulette_has_first_roulette_penalties(self):
+        user_count = 4
+        users = create_natural_number_users(user_count)
+        firstRoulette = Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now(), matchings_found_on=timezone.now() - timedelta(days=1))
+        create_match(firstRoulette, users[0].id, users[1].id)
+        create_match(firstRoulette, users[2].id, users[3].id)
+        # add 2nd roulette
+        Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
+        # Disable penalties for number of matches, as we're not testing it here.
+        PenaltyForNumberOfMatches.objects.create(penalty=0.0)
+        # Check that user pairs matched in 1st roulette have penalties in 3rd roulette
+        g = GraphAnalyzer(matching_graph(users), self)
+        penalty_after_one_day = 364.0 / 365.0
+        g.assertAndRemoveTwoEdges(1, 2, penalty_after_one_day)
+        g.assertAndRemoveTwoEdges(1, 3, 0)
+        g.assertAndRemoveTwoEdges(1, 4, 0)
+        g.assertAndRemoveTwoEdges(2, 3, 0)
+        g.assertAndRemoveTwoEdges(2, 4, 0)
+        g.assertAndRemoveTwoEdges(3, 4, penalty_after_one_day)
 
 
-
-        
+        # TODO test with a roulette with matches, but no matching time

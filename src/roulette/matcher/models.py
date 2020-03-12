@@ -1,3 +1,4 @@
+from datetime import timedelta
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
@@ -186,8 +187,11 @@ def get_last_roulette():
 def matching_graph(users):
     """ Returns [(user1, [(user2, weight), ...]), ...] """
     graph = []
-    (penalty_for_penalty_group, _) = PenaltyForPenaltyGroup.objects.get_or_create()
-    penalty_for_penalty_group = penalty_for_penalty_group.penalty
+    penalty_for_penalty_group = PenaltyForPenaltyGroup.objects.get_or_create()[0].penalty
+    penalty_for_number_matches = PenaltyForNumberOfMatches.objects.get_or_create()[0].penalty
+    penalty_for_recent_match = PenaltyForRecentMatch.objects.get_or_create()[0].penalty
+
+    now = timezone.now()
     for user in users:
         user_ids_excluded = set()
         user_ids_excluded.add(user.id)
@@ -205,7 +209,6 @@ def matching_graph(users):
                 if match.user_b.id == user.id:
                     user_ids_excluded.add(match.user_a.id)
         edges = []
-        user_matches = Match.objects.filter(Q(user_a=user) | Q(user_b=user)).all()
         for user2 in users:
             # Add edges
             if user2.id in user_ids_excluded:
@@ -217,10 +220,15 @@ def matching_graph(users):
                 if RouletteUser.objects.filter(penaltygroup__id = group.id).filter(id=user.id).exists():
                     penalty += penalty_for_penalty_group
             # Penalty for number of matches
-            #TODO
+            user_user2_matches = Match.objects.filter(Q(user_a=user, user_b=user2) | Q(user_a=user2, user_b=user))
+            penalty += len(user_user2_matches) * penalty_for_number_matches
+            # Penalties for recent matches
+            recent_user_user2_matches = user_user2_matches.filter(roulette__matchings_found_on__gte = now - timedelta(days=365)).all()
+            for match in recent_user_user2_matches:
+                time_passed = now - match.roulette.matchings_found_on
+                days_passed = time_passed.days
+                penalty += max(0.0, penalty_for_recent_match * (1.0 - days_passed / 365.0)) # linear relationship
             edges.append((user2, penalty))
-        # TODO: add penalties for recent matches
-        # TODO: add penalties for number of matches
 
         graph.append((user, edges))
     return graph
