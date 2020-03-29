@@ -131,4 +131,5 @@ dmypy.json
 
 # coffee-roulette
 django_local.py
+slackbot_local.py
 .vscode/
