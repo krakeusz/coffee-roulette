@@ -133,3 +133,5 @@ dmypy.json
 django_local.py
 slackbot_local.py
 .vscode/
+bin/
+pyvenv.cfg
