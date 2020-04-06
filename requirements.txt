@@ -2,7 +2,6 @@ asgiref==3.2.3
 astroid==2.3.3
 colorama==0.4.3
 Django==3.0.3
-django-slack==5.14.3
 isort==4.3.21
 lazy-object-proxy==1.4.3
 mccabe==0.6.1
@@ -11,3 +10,7 @@ pytz==2019.3
 six==1.14.0
 sqlparse==0.3.0
 wrapt==1.11.2
+
+slackclient>=2.0.0
+slackeventsapi>=2.1.0
+certifi

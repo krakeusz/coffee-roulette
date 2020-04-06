@@ -1,5 +1,0 @@
-{% extends django_slack %}
-
-{% block text %}
-Hello, Slack world! This is a test message from a Django backend.
-{% endblock %}
