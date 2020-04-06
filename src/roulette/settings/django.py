@@ -19,14 +19,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Application definition
 
 INSTALLED_APPS = [
-    'matcher.apps.MatcherConfig',
-    'slackbot.apps.SlackbotConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'matcher.apps.MatcherConfig',
+    'slackbot.apps.SlackbotConfig',
 ]
 
 MIDDLEWARE = [

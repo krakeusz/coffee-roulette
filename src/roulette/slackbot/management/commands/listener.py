@@ -65,6 +65,7 @@ async def message(**payload):
     reply = get_reply_payload(channel_id, user_id, text)
     response = await web_client.chat_postMessage(**reply)
     print("Reply sent, response was: {0}".format(response))
+    # TODO limit messages to 1 per second https://api.slack.com/docs/rate-limits
 
         
 class Command(BaseCommand):
