@@ -1,0 +1,10 @@
+{% extends "matcher/index.html" %}
+
+{% block content %}
+
+<div>
+    <p>Message(s) sent successfully!</p>
+    <p><a class="btn btn-secondary" role="button" href="{% url 'slackbot:configuration' %}">Go back</a></p>
+</div>
+
+{% endblock %}

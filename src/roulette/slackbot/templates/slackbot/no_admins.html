@@ -1,0 +1,12 @@
+{% extends "matcher/index.html" %}
+
+{% block content %}
+
+<div>
+    <p>No Slack admin users defined. Please create at least one if you want to get diagnostic messages on Slack.</p>
+    <p>You can add Slack admin users by going to <a href="{% url 'admin:auth_user_change' user.id %}">the User admin page</a> and providing Slack user ID.
+        To get user ID, go to your Slack instance, select your account, view profile, Copy member ID.</p>
+    <p><a class="btn btn-secondary" role="button" href="{% url 'slackbot:configuration' %}">Go back</a></p>
+</div>
+
+{% endblock %}

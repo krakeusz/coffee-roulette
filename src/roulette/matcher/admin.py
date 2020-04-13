@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib import auth
 from .models import *
-from slackbot.admin import SlackUserInline
+from slackbot.admin import SlackUserInline, SlackAdminUserInline
 
 class VoteInline(admin.TabularInline):
     model = Vote
@@ -29,6 +29,9 @@ class RouletteAdmin(admin.ModelAdmin):
 class RouletteUserAdmin(admin.ModelAdmin):
     inlines = [SlackUserInline]
 
+class UserAdmin(admin.ModelAdmin):
+    inlines = [SlackAdminUserInline]
+
 admin.site.register(Roulette, RouletteAdmin)
 admin.site.register(RouletteUser, RouletteUserAdmin)
 admin.site.register(ExclusionGroup)
@@ -39,4 +42,6 @@ admin.site.register(PenaltyForPenaltyGroup)
 admin.site.register(PenaltyForGroupingWithForbiddenUser)
 
 admin.site.unregister(auth.models.Group)
+admin.site.unregister(auth.models.User)
+admin.site.register(auth.models.User, UserAdmin)
 
