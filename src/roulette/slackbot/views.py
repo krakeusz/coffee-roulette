@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.views.decorators.http import require_POST
@@ -6,9 +7,15 @@ from django.urls import reverse
 from .models import SlackAdminUser
 from .webapi import postIM
 
+def get_slack_channel_or_none():
+    try:
+        return settings.SLACK_CHANNEL
+    except:
+        return None
 
-def configuration(request):
-    return render(request, 'slackbot/configuration.html', {})
+def settings(request):
+    slack_channel = get_slack_channel_or_none()
+    return render(request, 'slackbot/settings.html', {'slack_channel' : slack_channel})
 
 @require_POST
 def send_hello_to_admins(request):

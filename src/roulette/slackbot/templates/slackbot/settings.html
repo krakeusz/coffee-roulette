@@ -1,0 +1,21 @@
+{% extends "matcher/index.html" %}
+
+{% block active-slack-settings %}active{% endblock %}
+
+{% block content %}
+
+<form action="{% url 'slackbot:send_message' %}" method="post">
+    {% csrf_token %}
+    <input class="btn btn-success" type="submit" value="Send a test message to all admins on Slack" />
+</form>
+<div>
+    <p>Slack channel to use: 
+        {% if slack_channel %}
+            {{ slack_channel }}
+        {% else %}
+            no channel set. Please edit your slackbot_local.py configuration file.
+        {% endif %}
+    </p>
+</div>
+
+{% endblock %}

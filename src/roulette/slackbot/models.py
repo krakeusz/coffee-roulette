@@ -26,3 +26,33 @@ class SlackAdminUser(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+# TODO needed?
+class SingletonNoDefaultModel(models.Model):
+    """ Singleton Django Model without default creation """
+    """ Similar to matcher.models.SingletonModel, but doesn't create a default instance for the first time. """
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        """
+        Save object to the database. Removes all other entries if there
+        are any.
+        """
+        self.__class__.objects.exclude(id=self.id).delete()
+        super(SingletonNoDefaultModel, self).save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        """
+        Load object from the database. Failing that, return None.
+        """
+        try:
+            return cls.objects.get()
+        except cls.DoesNotExist:
+            return None
+    
+    def __str__(self):
+        return "singleton object"

@@ -33,6 +33,9 @@
           <a class="nav-link {% block active-new-roulette %}{% endblock %}" href="{% url 'admin:matcher_roulette_add' %}">New roulette</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link {% block active-slack-settings %}{% endblock %}" href="{% url 'slackbot:settings' %}">Slack settings</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link {% block active-admin %}{% endblock %}" href="{% url 'admin:index' %}">Other settings</a>
         </li>
       </ul>
