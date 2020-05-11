@@ -1,26 +1,49 @@
 import slack
 
 from django.conf import settings
+from .models import SlackAdminUser
 
-def createWebClient():
+def create_web_client():
     return slack.WebClient(token=settings.SLACK_BOT_TOKEN)
 
-def openIMChannelIfNotOpened(slack_user):
+def open_im_channel_if_not_opened(slack_user):
     """
     Opens a new direct channel between slackbot and slack_user, if it hasn't been done yet.
     slack_user can be either a SlackUser or SlackAdminUser instance.
     Returns the string identifying new channel.
     """
     if len(slack_user.im_channel) == 0:
-        response = createWebClient().conversations_open(users=str(slack_user.slack_user_id))
+        response = create_web_client().conversations_open(users=str(slack_user.slack_user_id))
         if not response["ok"]:
             raise Exception("Could not open Slack private conversation channel with user {0}: {1}".format(slack_user.slack_user_id, response["error"]))
         slack_user.im_channel = response["channel"]["id"]
         slack_user.save()
     return slack_user.im_channel
 
-def postIM(slack_user, text):
-    channel = openIMChannelIfNotOpened(slack_user)
-    response = createWebClient().chat_postMessage(channel=channel, text=text)
+def post_im(slack_user, text):
+    """ Send an instant message to one slack user.
+    slack_user can be either a SlackUser or SlackAdminUser instance.
+    Returns nothing, throws on error.
+    """
+    channel = open_im_channel_if_not_opened(slack_user)
+    response = create_web_client().chat_postMessage(channel=channel, text=text)
     if not response["ok"]:
         raise Exception("Could not send Slack IM message to user {0}: {1}".format(slack_user.slack_user.id, response["error"]))
+
+def post_im_to_all_admins(text):
+    """ Send an instant message to all slack admins on Slack.
+    Throws on error. """
+    for admin in SlackAdminUser.objects.all():
+        post_im(admin, text)
+
+def post_on_channel(channel, text):
+    """
+    Send a message on public or private group channel.
+    channel can be either #channel-name or slack channel ID.
+    If sending succeeds, returns timestamp of the new thread, for future correlation.
+    Throws on error.
+    """
+    response = create_web_client().chat_postMessage(channel=channel, text=text)
+    if not response["ok"]:
+        raise Exception("Could not send Slack message on channel {0}: {1}".format(channel, response["error"]))
+    return response["ts"]
