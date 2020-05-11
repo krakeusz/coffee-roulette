@@ -47,3 +47,15 @@ def post_on_channel(channel, text):
     if not response["ok"]:
         raise Exception("Could not send Slack message on channel {0}: {1}".format(channel, response["error"]))
     return response["ts"]
+
+def post_on_thread(channel, thread_timestamp, text):
+    """
+    Send a message on given thread (probably part of a channel).
+    channel can be either #channel-name or slack channel ID.
+    If sending succeeds, returns timestamp of the new message.
+    Throws on error.
+    """
+    response = create_web_client().chat_postMessage(channel=channel, thread_ts=thread_timestamp, text=text)
+    if not response["ok"]:
+        raise Exception("Could not send Slack message on channel {0}, thread {1}: {2}".format(channel, thread_timestamp, response["error"]))
+    return response["ts"]

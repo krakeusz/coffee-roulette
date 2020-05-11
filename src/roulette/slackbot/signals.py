@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from matcher.models import Roulette
 from .models import SlackRoulette
-from .webapi import post_on_channel, post_im_to_all_admins
+from .webapi import post_on_channel, post_on_thread, post_im_to_all_admins
 from django.conf import settings
 from django.utils import timezone
 
@@ -13,10 +13,12 @@ def broadcast_new_roulette(sender, instance, created, **kwargs):
         return
     try:
         thread_ts = post_on_channel(settings.SLACK_CHANNEL, (
-            "A new coffee roulette is going to start!"
-            " If you want to participate, please vote by writing YES in this thread.\n"
-            "The voting deadline is {0}. Coffee will end on {1}\n"
-            ).format(timezone.localtime(instance.vote_deadline), timezone.localtime(instance.coffee_deadline)))
+            "A new coffee roulette #{0} is going to start!"
+            " If you want to participate, please reply in this thread.\n"
+            "The voting deadline is {1}. Coffee will end on {2}\n"
+            ).format(instance.pk, timezone.localtime(instance.vote_deadline), timezone.localtime(instance.coffee_deadline)))
+        first_reply_ts = post_on_thread(settings.SLACK_CHANNEL, thread_ts, "Please vote by writing YES or NO. If you don't vote, you won't participate.")
+
     except Exception as exception:
         print(str(exception))
         try:
@@ -27,5 +29,5 @@ def broadcast_new_roulette(sender, instance, created, **kwargs):
             print(str(nestedException))
         return
 
-    SlackRoulette.objects.create(roulette = instance, thread_timestamp = thread_ts)
+    SlackRoulette.objects.create(roulette = instance, thread_timestamp = thread_ts, latest_response_timestamp = first_reply_ts)
 
