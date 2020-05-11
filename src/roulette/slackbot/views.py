@@ -11,7 +11,7 @@ def configuration(request):
     return render(request, 'slackbot/configuration.html', {})
 
 @require_POST
-def send_message(request):
+def send_hello_to_admins(request):
     users = SlackAdminUser.objects.all()
     if len(users) == 0:
         return HttpResponseRedirect(reverse('slackbot:no_admins'))
