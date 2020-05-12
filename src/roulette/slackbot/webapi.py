@@ -203,7 +203,6 @@ def fetch_votes(slack_roulette):
         ]
     }
     """
-    # TODO auto-format the code
     vote_list = {
         "last_message_timestamp": slack_roulette.latest_response_timestamp,
         "votes": [],
