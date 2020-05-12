@@ -67,10 +67,16 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3 offset-md-3">
+    <div class="col-md-3">
         {% if roulette.canAdminChangeVotes %}
             <a class="btn btn-primary" role="button" href="{% url 'admin:matcher_roulette_change' roulette.pk %}">Change votes</a>
         {% endif %}
+    </div>
+    <div class="col-md-3">
+        <form action="{% url 'slackbot:fetch_votes' roulette.pk %}" method="post">
+            {% csrf_token %}
+            <input class="btn btn-primary" type="submit" value="Download Slack votes" />
+        </form>
     </div>
 </div>
 

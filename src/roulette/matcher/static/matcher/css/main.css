@@ -24,13 +24,14 @@
 
 .content {
     margin-top: 105px;
+    padding-bottom: 1rem;
 }
 
 .row+.row {
     margin-top: 1.5rem;
 }
 
-.row h2 {
+.row h1, .row h2, .row h3, .row h4 {
     margin-top: 1.0rem;
     margin-bottom: 1.0rem;
 }

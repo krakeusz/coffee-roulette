@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect, Http404
 from django.utils import timezone
 from django.urls import reverse
+from django.views.decorators.http import require_POST
 from .algorithms import generate_matches_montecarlo, merge_matches
 from .models import Match, Roulette, RouletteUser, PenaltyForGroupingWithForbiddenUser, matching_graph
 import re
@@ -47,8 +48,10 @@ def run_roulette(request, roulette_id):
     penalty_for_grouping_with_forbidden_user = PenaltyForGroupingWithForbiddenUser.objects.get_or_create()[0].penalty
     matches = generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
     context = {'matches': matches, 'roulette': r}
+    # TODO refactor this to use session data instead
     return render(request, 'matcher/matcher.html', context)
 
+@require_POST
 def submit_roulette(request, roulette_id):
     autocommit = transaction.get_autocommit()
     transaction.set_autocommit(False)

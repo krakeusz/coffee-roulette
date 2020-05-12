@@ -1,0 +1,67 @@
+{% extends "matcher/index.html" %}
+
+{% block content %}
+
+<div class="row">
+    <h2>Updates from Slack</h2>
+</div>
+<div class="row">
+    <div class="col-sm">
+        <h3>New votes</h3>
+        {% if vote_list.votes %}
+            <ul class="list-group">
+                {% for vote in vote_list.votes %}
+                    <li class="list-group-item">{{ vote }}</li>
+                {% endfor %}
+            </ul>
+            <p>The vote(s) have been saved successfully.</p>
+        {% else %}
+            <p>None.</p>
+        {% endif %}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <h3>Unrecognized messages</h3>
+        {% if vote_list.unknown_messages %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col" style="width: 30%">Message</th>
+                            <th scope="col" style="width: 20%">Reason</th>
+                            <th scope="col">Slack User ID</th>
+                            <th scope="col">Our database ID</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Real name</th>
+                            <th scope="col">Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                {% for message in vote_list.unknown_messages %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ message.text }}</td>
+                            <td>{{ message.reason }}</td>
+                            <td>{{ message.user.slack_id }}</td>
+                            <td>{{ message.user.database_slack_user_id }}</td>
+                            <td>{{ message.user.display_name }}</td>
+                            <td>{{ message.user.real_name }}</td>
+                            <td>{{ message.user.email }}</td>
+                        </tr>
+                {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <p>Note: these messages haven't been saved. Please process them manually now.</p>
+        {% else %}
+            <p>None.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <p><a class="btn btn-secondary" role="button" href="{% url 'matcher:roulette' roulette_id %}">Go back</a></p>
+</div>
+{% endblock %}

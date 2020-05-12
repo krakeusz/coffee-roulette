@@ -6,7 +6,7 @@ from django.utils import timezone
 
 class RouletteUser(models.Model):
     name = models.CharField(max_length=100)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     
     def __str__(self):
         return self.name
@@ -101,8 +101,19 @@ class Vote(models.Model):
     ]
     choice = models.CharField(max_length=3, choices=VOTE_CHOICES, default=NO_CHOICE_YET)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['roulette', 'user'], name='unique_vote')
+        ]
+
+    def pretty_choice(self):
+        for choice_str, choice_verbose in self.VOTE_CHOICES:
+            if self.choice == choice_str:
+                return choice_verbose
+        return 'Invalid vote'
+
     def __str__(self):
-        return "Vote of " + str(self.user) + " on " + str(self.roulette)
+        return "Vote of {0} on {1}".format(self.user, self.pretty_choice())
 
 class Match(models.Model):
     user_a = models.ForeignKey(RouletteUser, on_delete=models.CASCADE, related_name='+')

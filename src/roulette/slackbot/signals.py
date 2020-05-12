@@ -12,12 +12,15 @@ def broadcast_new_roulette(sender, instance, created, **kwargs):
     if not created:
         return
     try:
-        thread_ts = post_on_channel(settings.SLACK_CHANNEL, (
+        thread_ts, channel_id = post_on_channel(settings.SLACK_CHANNEL, (
             "A new coffee roulette #{0} is going to start!"
             " If you want to participate, please reply in this thread.\n"
             "The voting deadline is {1}. Coffee will end on {2}\n"
             ).format(instance.pk, timezone.localtime(instance.vote_deadline), timezone.localtime(instance.coffee_deadline)))
-        first_reply_ts = post_on_thread(settings.SLACK_CHANNEL, thread_ts, "Please vote by writing YES or NO. If you don't vote, you won't participate.")
+        first_reply_ts = post_on_thread(channel_id, thread_ts,
+            ("Please vote by writing YES or NO (case is ignored).\n"
+            " If you make a typo or want to change your vote, just write again. Only the last vote will count.")
+        )
 
     except Exception as exception:
         print(str(exception))
@@ -29,5 +32,5 @@ def broadcast_new_roulette(sender, instance, created, **kwargs):
             print(str(nestedException))
         return
 
-    SlackRoulette.objects.create(roulette = instance, thread_timestamp = thread_ts, latest_response_timestamp = first_reply_ts)
+    SlackRoulette.objects.create(roulette=instance, thread_timestamp=thread_ts, latest_response_timestamp=first_reply_ts, channel_id=channel_id)
 
