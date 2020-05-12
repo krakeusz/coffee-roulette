@@ -2,6 +2,7 @@ from django.contrib import auth
 from django.db import models
 from matcher.models import Roulette, RouletteUser
 
+
 class SlackUser(models.Model):
     """ Extends the RouletteUser model with Slack user id field.
         This field can be queried from Slack API, for example if we know user's email.
@@ -15,6 +16,7 @@ class SlackUser(models.Model):
     def __str__(self):
         return str(self.user)
 
+
 class SlackAdminUser(models.Model):
     """ Extends the django.contrib.auth.User by providing Slack user ID.
         All SlackAdminUsers will be notified on Slack in case an error or warning happens.
@@ -25,6 +27,7 @@ class SlackAdminUser(models.Model):
 
     def __str__(self):
         return str(self.user)
+
 
 class SlackRoulette(models.Model):
     """ Extends the matcher.models.Roulette model with data needed for Slack interactions. """

@@ -4,9 +4,10 @@ import time
 import random
 from queue import Queue
 
+
 def merge_matches(matches):
     """ Given a list of Matches, returns a list of user tuples (groups) """
-    graph = {} # user_id -> (user, list of users matched with)
+    graph = {}  # user_id -> (user, list of users matched with)
     for match in matches:
         user, neighbors = graph.get(str(match.user_a.id), (match.user_a, []))
         neighbors.append(match.user_b)
@@ -33,11 +34,12 @@ def merge_matches(matches):
             groups.append(group)
     return groups
 
+
 def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user):
     """ Input: Graph in format: [(user1, [(user2, weight), ...]), ...] """
     """ Returns: list of tuples of users """
     if len(graph) <= 1:
-        return [] # Not enough users
+        return []  # Not enough users
     best_solution = []
     best_solution_penalty = math.inf
     timeout_seconds = settings.MATCHER_MONTECARLO_TIMEOUT_MS / 1000.0
@@ -59,13 +61,15 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
                 # Already processed, but not removed from the list because it would be time-expensive.
                 continue
             processed_user_ids.add(user.id)
-            possible_matches = [(user2, weight) for (user2, weight) in neighbors if user2.id not in processed_user_ids]
+            possible_matches = [(user2, weight) for (
+                user2, weight) in neighbors if user2.id not in processed_user_ids]
             if len(possible_matches) == 0:
                 singleton_user_ids.add(user.id)
             else:
                 (user2, weight) = random.sample(possible_matches, 1)[0]
                 processed_user_ids.add(user2.id)
-                matches.append([user, user2]) # List, not tuple, because we could modify it later
+                # List, not tuple, because we could modify it later
+                matches.append([user, user2])
                 total_penalty += weight
         # Add non-paired users to the groups randomly
         for (user, neighbors) in graph:

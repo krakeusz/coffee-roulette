@@ -6,4 +6,3 @@ class SlackbotConfig(AppConfig):
 
     def ready(self):
         from .signals import broadcast_new_roulette
-    

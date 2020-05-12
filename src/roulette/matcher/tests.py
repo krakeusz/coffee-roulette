@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from .models import Roulette, Vote, Match, RouletteUser, ExclusionGroup, PenaltyGroup, PenaltyForNumberOfMatches, get_last_roulette, matching_graph
 
+
 def create_natural_number_users(n_users):
     for i in range(1, n_users+1):
         RouletteUser.objects.create(name=str(i), email=str(i)+"@example.com")
@@ -27,10 +28,11 @@ def create_groups_modulo_k(n_users, k_groups, group_model):
         group.save()
     return groups
 
+
 def create_match(roulette, user1_id, user2_id):
-    Match.objects.create(user_a = get_object_or_404(RouletteUser, pk=user1_id),
-                         user_b = get_object_or_404(RouletteUser, pk=user2_id),
-                         roulette = roulette)
+    Match.objects.create(user_a=get_object_or_404(RouletteUser, pk=user1_id),
+                         user_b=get_object_or_404(RouletteUser, pk=user2_id),
+                         roulette=roulette)
 
 
 class GraphAnalyzer(object):
@@ -44,7 +46,7 @@ class GraphAnalyzer(object):
             for user2, weight in edge_list:
                 edges[user2.id] = weight
             self.users[user.id] = edges
-    
+
     def assertAndRemoveEdge(self, user1_id, user2_id, expected_weight=None):
         self.testcase.assertIn(user1_id, self.users)
         user1_edges = self.users[user1_id]
@@ -53,41 +55,49 @@ class GraphAnalyzer(object):
             self.testcase.assertAlmostEqual(expected_weight, user1_edges[user2_id],
                                             msg="edge between users {0} and {1} should have weight {2}, but got {3}".format(user1_id, user2_id, expected_weight, user1_edges[user2_id]))
         user1_edges.pop(user2_id)
-    
+
     def assertAndRemoveTwoEdges(self, user1_id, user2_id, expected_weight=None):
         self.assertAndRemoveEdge(user1_id, user2_id, expected_weight)
         self.assertAndRemoveEdge(user2_id, user1_id, expected_weight)
 
     def assertNoEdgesLeft(self):
         for user, user_edges in self.users.items():
-            self.testcase.assertEqual(0, len(user_edges), "for user " + str(user))
+            self.testcase.assertEqual(
+                0, len(user_edges), "for user " + str(user))
 
 
 class VoteModelTests(TestCase):
 
     def test_adding_roulette_adds_default_votes(self):
         create_natural_number_users(2)
-        Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now())
+        Roulette.objects.create(
+            vote_deadline=timezone.now(), coffee_deadline=timezone.now())
         all_votes = Vote.objects.all()
         self.assertEqual(2, len(all_votes))
-    
+
     def test_adding_user_adds_votes(self):
-        Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now())
+        Roulette.objects.create(
+            vote_deadline=timezone.now(), coffee_deadline=timezone.now())
         create_natural_number_users(2)
         all_votes = Vote.objects.all()
         self.assertEqual(2, len(all_votes))
 
+
 class RouletteModelTests(TestCase):
 
     def test_last_roulette_out_of_two(self):
-        expectedLastRoulette = Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now(), matchings_found_on=timezone.now() + timedelta(days=1))
-        Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
+        expectedLastRoulette = Roulette.objects.create(vote_deadline=timezone.now(
+        ), coffee_deadline=timezone.now(), matchings_found_on=timezone.now() + timedelta(days=1))
+        Roulette.objects.create(vote_deadline=timezone.now(
+        ), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
         actualLastRoulette = get_last_roulette()
         self.assertEqual(expectedLastRoulette.pk, actualLastRoulette.pk)
-    
+
     def test_last_roulette_with_no_finished_roulettes(self):
-        Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now())
+        Roulette.objects.create(
+            vote_deadline=timezone.now(), coffee_deadline=timezone.now())
         self.assertIsNone(get_last_roulette())
+
 
 class MatchingGraphGenerationTests(TestCase):
 
@@ -100,7 +110,7 @@ class MatchingGraphGenerationTests(TestCase):
                 if i != j:
                     g.assertAndRemoveEdge(i, j, 0)
         g.assertNoEdgesLeft()
-    
+
     def test_graph_for_exclusion_groups(self):
         user_count = 5
         users = create_natural_number_users(user_count)
@@ -113,7 +123,7 @@ class MatchingGraphGenerationTests(TestCase):
         g.assertAndRemoveTwoEdges(3, 4, 0)
         g.assertAndRemoveTwoEdges(4, 5, 0)
         g.assertNoEdgesLeft()
-    
+
     def test_graph_for_penalty_groups(self):
         user_count = 3
         users = create_natural_number_users(user_count)
@@ -123,11 +133,12 @@ class MatchingGraphGenerationTests(TestCase):
         g.assertAndRemoveTwoEdges(1, 3, 2)
         g.assertAndRemoveTwoEdges(2, 3, 0)
         g.assertNoEdgesLeft()
-    
+
     def test_graph_for_second_roulette_has_first_roulette_exclusions(self):
         user_count = 4
         users = create_natural_number_users(user_count)
-        firstRoulette = Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
+        firstRoulette = Roulette.objects.create(vote_deadline=timezone.now(
+        ), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
         create_match(firstRoulette, users[0].id, users[1].id)
         create_match(firstRoulette, users[2].id, users[3].id)
         g = GraphAnalyzer(matching_graph(users), self)
@@ -137,15 +148,17 @@ class MatchingGraphGenerationTests(TestCase):
         g.assertAndRemoveTwoEdges(2, 3)
         g.assertAndRemoveTwoEdges(2, 4)
         g.assertNoEdgesLeft()
-    
+
     def test_graph_for_third_roulette_has_first_roulette_penalties(self):
         user_count = 4
         users = create_natural_number_users(user_count)
-        firstRoulette = Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now(), matchings_found_on=timezone.now() - timedelta(days=1))
+        firstRoulette = Roulette.objects.create(vote_deadline=timezone.now(
+        ), coffee_deadline=timezone.now(), matchings_found_on=timezone.now() - timedelta(days=1))
         create_match(firstRoulette, users[0].id, users[1].id)
         create_match(firstRoulette, users[2].id, users[3].id)
         # add 2nd roulette
-        Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
+        Roulette.objects.create(vote_deadline=timezone.now(
+        ), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
         # Disable penalties for number of matches, as we're not testing it here.
         PenaltyForNumberOfMatches.objects.create(penalty=0.0)
         # Check that user pairs matched in 1st roulette have penalties in 3rd roulette
@@ -157,6 +170,5 @@ class MatchingGraphGenerationTests(TestCase):
         g.assertAndRemoveTwoEdges(2, 3, 0)
         g.assertAndRemoveTwoEdges(2, 4, 0)
         g.assertAndRemoveTwoEdges(3, 4, penalty_after_one_day)
-
 
         # TODO test with a roulette with matches, but no matching time

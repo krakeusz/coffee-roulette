@@ -6,8 +6,10 @@ from .models import SlackAdminUser, SlackUser
 from matcher.models import RouletteUser
 from decimal import Decimal
 
+
 def create_web_client():
     return slack.WebClient(token=settings.SLACK_BOT_TOKEN)
+
 
 def open_im_channel_if_not_opened(slack_user):
     """
@@ -16,12 +18,15 @@ def open_im_channel_if_not_opened(slack_user):
     Returns the string identifying new channel.
     """
     if len(slack_user.im_channel) == 0:
-        response = create_web_client().conversations_open(users=str(slack_user.slack_user_id))
+        response = create_web_client().conversations_open(
+            users=str(slack_user.slack_user_id))
         if not response["ok"]:
-            raise Exception("Could not open Slack private conversation channel with user {0}: {1}".format(slack_user.slack_user_id, response["error"]))
+            raise Exception("Could not open Slack private conversation channel with user {0}: {1}".format(
+                slack_user.slack_user_id, response["error"]))
         slack_user.im_channel = response["channel"]["id"]
         slack_user.save()
     return slack_user.im_channel
+
 
 def post_im(slack_user, text):
     """
@@ -32,7 +37,9 @@ def post_im(slack_user, text):
     channel = open_im_channel_if_not_opened(slack_user)
     response = create_web_client().chat_postMessage(channel=channel, text=text)
     if not response["ok"]:
-        raise Exception("Could not send Slack IM message to user {0}: {1}".format(slack_user.slack_user.id, response["error"]))
+        raise Exception("Could not send Slack IM message to user {0}: {1}".format(
+            slack_user.slack_user.id, response["error"]))
+
 
 def post_im_to_all_admins(text):
     """
@@ -41,6 +48,7 @@ def post_im_to_all_admins(text):
     """
     for admin in SlackAdminUser.objects.all():
         post_im(admin, text)
+
 
 def post_on_channel(channel, text):
     """
@@ -53,8 +61,10 @@ def post_on_channel(channel, text):
     """
     response = create_web_client().chat_postMessage(channel=channel, text=text)
     if not response["ok"]:
-        raise Exception("Could not send Slack message on channel {0}: {1}".format(channel, response["error"]))
+        raise Exception("Could not send Slack message on channel {0}: {1}".format(
+            channel, response["error"]))
     return (response["ts"], response["channel"])
+
 
 def post_on_thread(channel, thread_timestamp, text):
     """
@@ -63,10 +73,13 @@ def post_on_thread(channel, thread_timestamp, text):
     If sending succeeds, return timestamp of the new message.
     Throw on error.
     """
-    response = create_web_client().chat_postMessage(channel=channel, thread_ts=thread_timestamp, text=text)
+    response = create_web_client().chat_postMessage(
+        channel=channel, thread_ts=thread_timestamp, text=text)
     if not response["ok"]:
-        raise Exception("Could not send Slack message on channel {0}, thread {1}: {2}".format(channel, thread_timestamp, response["error"]))
+        raise Exception("Could not send Slack message on channel {0}, thread {1}: {2}".format(
+            channel, thread_timestamp, response["error"]))
     return response["ts"]
+
 
 def slack_user_to_dict(slack_user):
     """
@@ -79,6 +92,7 @@ def slack_user_to_dict(slack_user):
         "real_name": None,
         "email": slack_user.user.email
     }
+
 
 def get_or_corellate_slack_user(webclient, slack_user_id):
     """
@@ -102,7 +116,8 @@ def get_or_corellate_slack_user(webclient, slack_user_id):
     # Corellate user account on Slack with SlackUser by his/her email address, which both we and Slack require.
     response = webclient.users_info(user=slack_user_id)
     if not response["ok"]:
-        raise Exception("Could not fetch email of user {0}: {1}".format(slack_user_id, response["error"]))
+        raise Exception("Could not fetch email of user {0}: {1}".format(
+            slack_user_id, response["error"]))
     profile = response["user"]["profile"]
     email = profile.get("email")
     roulette_users_by_email = RouletteUser.objects.filter(email=email)
@@ -115,8 +130,10 @@ def get_or_corellate_slack_user(webclient, slack_user_id):
             "email": email
         }
     roulette_user = roulette_users_by_email.get()
-    slack_user = SlackUser.objects.create(user=roulette_user, slack_user_id=slack_user_id)
+    slack_user = SlackUser.objects.create(
+        user=roulette_user, slack_user_id=slack_user_id)
     return slack_user_to_dict(slack_user)
+
 
 def parse_vote(message_text, slack_user, roulette):
     """
@@ -129,7 +146,8 @@ def parse_vote(message_text, slack_user, roulette):
     }, or None if the parsing failed.
     """
     stripped_message = re.sub('[ \t\n\r.!]', '', message_text).lower()
-    vote = { "roulette_id": str(roulette.id), "roulette_user_id": str(slack_user.user.id) }
+    vote = {"roulette_id": str(roulette.id),
+            "roulette_user_id": str(slack_user.user.id)}
     if stripped_message == "yes":
         vote["choice"] = "Y"
     elif stripped_message == "no":
@@ -137,6 +155,7 @@ def parse_vote(message_text, slack_user, roulette):
     else:
         return None
     return vote
+
 
 def fetch_votes(slack_roulette):
     """
@@ -184,7 +203,7 @@ def fetch_votes(slack_roulette):
         ]
     }
     """
-    #TODO auto-format the code
+    # TODO auto-format the code
     vote_list = {
         "last_message_timestamp": slack_roulette.latest_response_timestamp,
         "votes": [],
@@ -194,20 +213,27 @@ def fetch_votes(slack_roulette):
     webclient = create_web_client()
     reps_remaining = 100
     while more:
-        response = webclient.conversations_replies(channel=slack_roulette.channel_id, ts=slack_roulette.thread_timestamp, oldest=vote_list["last_message_timestamp"])
+        response = webclient.conversations_replies(
+            channel=slack_roulette.channel_id, ts=slack_roulette.thread_timestamp, oldest=vote_list["last_message_timestamp"])
         if not response["ok"]:
-            raise Exception("Could not fetch Slack thread replies on channel {0}, thread {1}: {2}".format(slack_roulette.channel_id, slack_roulette.thread_timestamp, response["error"]))
+            raise Exception("Could not fetch Slack thread replies on channel {0}, thread {1}: {2}".format(
+                slack_roulette.channel_id, slack_roulette.thread_timestamp, response["error"]))
         for message in response["messages"]:
             if message["ts"] == slack_roulette.thread_timestamp:
-                continue # Slack returns the thread parent message too. We ignore it.
+                # Slack returns the thread parent message too. We ignore it.
+                continue
             user_dict = get_or_corellate_slack_user(webclient, message["user"])
             if user_dict["database_slack_user_id"] is None:
-                vote_list["unknown_messages"].append({"user": user_dict, "text": message["text"], "reason": "Could not correlate our data with Slack using email field."})
+                vote_list["unknown_messages"].append(
+                    {"user": user_dict, "text": message["text"], "reason": "Could not correlate our data with Slack using email field."})
             else:
-                slack_user = SlackUser.objects.get(pk=int(user_dict["database_slack_user_id"]))
-                vote = parse_vote(message["text"], slack_user, slack_roulette.roulette)
+                slack_user = SlackUser.objects.get(
+                    pk=int(user_dict["database_slack_user_id"]))
+                vote = parse_vote(
+                    message["text"], slack_user, slack_roulette.roulette)
                 if vote is None:
-                    vote_list["unknown_messages"].append({"user": slack_user_to_dict(slack_user), "text": message["text"], "reason": "Could not parse user's message."})
+                    vote_list["unknown_messages"].append({"user": slack_user_to_dict(
+                        slack_user), "text": message["text"], "reason": "Could not parse user's message."})
                 else:
                     vote_list["votes"].append(vote)
             if Decimal(message["ts"]) > Decimal(vote_list["last_message_timestamp"]):
