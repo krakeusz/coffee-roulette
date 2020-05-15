@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_POST
 from .algorithms import generate_matches_montecarlo, merge_matches
 from .models import Match, Roulette, RouletteUser, PenaltyForGroupingWithForbiddenUser, matching_graph
+from .signals import post_matching
 import re
 
 
@@ -97,6 +98,8 @@ def submit_roulette(request, roulette_id):
                                              RouletteUser, pk=user_b),
                                          roulette=r)
         transaction.commit()
+        post_matching.send(sender=Roulette.__class__,
+                           instance=r, groups=groups)
     except (KeyError, Roulette.DoesNotExist):
         exception = Http404()
         transaction.rollback()

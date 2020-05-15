@@ -1,6 +1,12 @@
 from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.dispatch import receiver, Signal
 from .models import Roulette, RouletteUser, Vote
+
+# post_matching is sent when a matching completes successfully.
+# 'sender' will be the Roulette class.
+# 'instance' will be the Roulette instance that matching is tied to.
+# 'groups' will be dict of group_id => list of user ids that belong to the group. str => list(int)
+post_matching = Signal(providing_args=["instance", "groups"])
 
 
 @receiver(post_save, sender=Roulette)

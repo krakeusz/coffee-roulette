@@ -5,4 +5,4 @@ class SlackbotConfig(AppConfig):
     name = 'slackbot'
 
     def ready(self):
-        from .signals import broadcast_new_roulette
+        from .signals import broadcast_new_roulette, broadcast_matching_results

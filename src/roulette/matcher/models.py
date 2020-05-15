@@ -19,7 +19,7 @@ class Roulette(models.Model):
     matchings_found_on = models.DateTimeField(null=True, default=None, )
 
     def __str__(self):
-        return "Roulette with coffee deadline " + str(timezone.localtime(self.coffee_deadline))
+        return "Roulette #{0} with coffee deadline {1}".format(self.pk, timezone.localtime(self.coffee_deadline))
 
     def clean(self):
         if self.vote_deadline >= self.coffee_deadline:

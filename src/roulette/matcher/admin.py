@@ -49,3 +49,5 @@ admin.site.register(PenaltyForGroupingWithForbiddenUser)
 admin.site.unregister(auth.models.Group)
 admin.site.unregister(auth.models.User)
 admin.site.register(auth.models.User, UserAdmin)
+
+# TODO: first day of week in admin calendars should be Monday
