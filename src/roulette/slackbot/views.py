@@ -45,15 +45,18 @@ def no_admins(request):
 def fetch_votes(request, roulette_id):
     failure_type = 'unknown'
     try:
-        slack_roulette = SlackRoulette.objects.filter(
-            roulette=roulette_id).get()
+        roulette = Roulette.objects.get(pk=int(roulette_id))
+        if not roulette.canVotesBeChanged():
+            failure_type = 'too_late_for_changing_votes'
+            raise Exception()
+        slack_roulette = SlackRoulette.objects.get(roulette=int(roulette_id))
         vote_list = fetch_votes_impl(slack_roulette)
         request.session['slackbot_vote_list'] = vote_list
         return HttpResponseRedirect(reverse('slackbot:fetch_votes_success', args=[roulette_id]))
     except SlackRoulette.DoesNotExist:
         failure_type = 'no_slack_thread'
-    except:
-        pass
+    except Exception as exception:
+        print(exception)
     return HttpResponseRedirect(reverse('slackbot:fetch_votes_failure', args=[roulette_id, failure_type]))
 
 

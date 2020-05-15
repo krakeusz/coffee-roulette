@@ -9,6 +9,8 @@ from .models import Match, Roulette, RouletteUser, PenaltyForGroupingWithForbidd
 from .signals import post_matching
 import re
 
+# TODO all the views should be accessible only after login
+
 
 def insert_roulette_data_columns(roulettes):
     for r in roulettes:

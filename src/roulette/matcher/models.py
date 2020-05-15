@@ -26,7 +26,7 @@ class Roulette(models.Model):
             raise ValidationError(
                 "Coffee deadline must be set after vote deadline")
 
-    def canAdminChangeVotes(self):
+    def canVotesBeChanged(self):
         return self.matchings_found_on is None
 
     def canAdminGenerateMatches(self):

@@ -4,10 +4,13 @@
 
 <div>
     {% if failure_type == 'no_slack_thread' %}
-        <p>This roulette hasn't been broadcast on Slack. Downloading Slack votes failed.</p>
-        <p>It seems that when the roulette was created, Slack integration didn't work. Please check if Slack integration works and create a new roulette.</p>
+    <p>This roulette hasn't been broadcast on Slack. Downloading Slack votes failed.</p>
+    <p>It seems that when the roulette was created, Slack integration didn't work. Please check if Slack integration
+        works and create a new roulette.</p>
+    {% elif failure_type == 'too_late_for_changing_votes' %}
+    <p>Votes cannot be changed now, because matches have been already generated.</p>
     {% else %}
-        <p>An unknown error has happened. The request couldn't be fulfilled.</p>
+    <p>An unknown error has happened. The request couldn't be fulfilled.</p>
     {% endif %}
     <p><a class="btn btn-secondary" role="button" href="{% url 'matcher:roulette' roulette_id %}">Go back</a></p>
 </div>

@@ -13,70 +13,73 @@
     <div class="col">
         <h2>Matches</h2>
         {% if matches %}
-            <ol>
-                {% for group in matches %}
-                    <li>
-                        {% for user in group %}
-                            {% if not forloop.first %} - {% endif %}
-                            {{ user.name }}
-                        {% endfor %}
-                    </li>
+        <ol>
+            {% for group in matches %}
+            <li>
+                {% for user in group %}
+                {% if not forloop.first %} - {% endif %}
+                {{ user.name }}
                 {% endfor %}
-                </ol>
+            </li>
+            {% endfor %}
+        </ol>
         {% else %}
-            <p>No matches generated yet.</p>
-            {% if roulette.canAdminGenerateMatches %}
-                <a class="btn btn-primary" role="button" href="{% url 'matcher:run' roulette.pk %}">Run roulette</a>
-            {% else %}
-                You'll be able to generate matches as soon as voting ends.
-            {% endif %}
-            </p>
+        <p>No matches generated yet.</p>
+        {% if roulette.canAdminGenerateMatches %}
+        <a class="btn btn-primary" role="button" href="{% url 'matcher:run' roulette.pk %}">Run roulette</a>
+        {% else %}
+        You'll be able to generate matches as soon as voting ends.
+        {% endif %}
+        </p>
         {% endif %}
     </div>
 </div>
 <div class="row">
     <div class="col-md-3">
         <h2>Votes on YES</h2>
-            <ul class="list-group">
+        <ul class="list-group">
             {% for v in votes_yes %}
-                <li class="list-group-item list-group-item-success">{{ v.user.name }}</li>
+            <li class="list-group-item list-group-item-success">{{ v.user.name }}</li>
             {% empty %}
-                <li class="list-group-item">No users voted YES.</li>
+            <li class="list-group-item">No users voted YES.</li>
             {% endfor %}
-            </ul>
+        </ul>
     </div>
     <div class="col-md-3">
         <h2>Votes on NO</h2>
-            <ul class="list-group">
+        <ul class="list-group">
             {% for v in votes_no %}
-                <li class="list-group-item list-group-item-danger">{{ v.user.name }}</li>
+            <li class="list-group-item list-group-item-danger">{{ v.user.name }}</li>
             {% empty %}
-                <li class="list-group-item">No users voted NO.</li>
+            <li class="list-group-item">No users voted NO.</li>
             {% endfor %}
-            </ul>
+        </ul>
     </div>
     <div class="col-md-3">
         <h2>No votes</h2>
-            <ul class="list-group">
+        <ul class="list-group">
             {% for v in votes_unknown %}
-                <li class="list-group-item list-group-item-light">{{ v.user.name }}</li>
+            <li class="list-group-item list-group-item-light">{{ v.user.name }}</li>
             {% empty %}
-                <li class="list-group-item">All users have voted.</li>
+            <li class="list-group-item">All users have voted.</li>
             {% endfor %}
-            </ul>
+        </ul>
     </div>
 </div>
 <div class="row">
     <div class="col-md-3">
-        {% if roulette.canAdminChangeVotes %}
-            <a class="btn btn-primary" role="button" href="{% url 'admin:matcher_roulette_change' roulette.pk %}">Change votes</a>
+        {% if roulette.canVotesBeChanged %}
+        <a class="btn btn-primary" role="button" href="{% url 'admin:matcher_roulette_change' roulette.pk %}">Change
+            votes</a>
         {% endif %}
     </div>
     <div class="col-md-3">
+        {% if roulette.canVotesBeChanged %}
         <form action="{% url 'slackbot:fetch_votes' roulette.pk %}" method="post">
             {% csrf_token %}
             <input class="btn btn-primary" type="submit" value="Download Slack votes" />
         </form>
+        {% endif %}
     </div>
 </div>
 

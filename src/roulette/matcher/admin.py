@@ -20,7 +20,7 @@ class VoteInline(admin.TabularInline):
         if not isinstance(obj, Roulette):
             return False  # Disallow editing from anything other than Roulette view
         # Allow editing votes if the model logic allows to.
-        return obj.canAdminChangeVotes()
+        return obj.canVotesBeChanged()
 
 
 class RouletteAdmin(admin.ModelAdmin):

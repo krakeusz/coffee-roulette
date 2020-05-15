@@ -81,4 +81,3 @@ def broadcast_matching_results(sender, instance, groups, **kwargs):
                 ", ".join(not_notified_user_names), "\n".join(error_details))
         post_im_to_all_admins(message)
     # TODO send a message to everyone, finalizing the thread
-    # TODO disallow downloading votes from the Slack after the matching is done
