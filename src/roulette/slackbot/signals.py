@@ -38,7 +38,7 @@ def broadcast_new_roulette(sender, instance, created, **kwargs):
                                  latest_response_timestamp=first_reply_ts, channel_id=channel_id)
 
 
-def notify_matching_result(roulette, slack_user, other_users):
+def _notify_matching_result_(roulette, slack_user, other_users):
     if len(other_users) == 0:
         print("User {0} got matched with noone. This shouldn't have happened.".format(
             slack_user.roulette_user.name))
@@ -49,35 +49,67 @@ def notify_matching_result(roulette, slack_user, other_users):
     post_im(slack_user, message)
 
 
-@receiver(post_matching)
-def broadcast_matching_results(sender, instance, groups, **kwargs):
-    # When a matching is done, send IMs to affected users on Slack
-    if not SlackRoulette.objects.filter(roulette=instance).exists():
-        return  # A roulette without Slack Roulette - do nothing.
-    not_notified_user_names = []
-    error_details = []
+def _notify_all_matching_results_(roulette, groups):
+    """
+    Try to notify all users participating in roulette about matching results.
+    'roulette' is the Roulette instance.
+    'groups' is a dict of group_id => list of user ids that belong to the group. str => list(int)
+    Return a list of pairs, (not_notified_user_name, error_detail_string).
+    """
+    errors = []
     for _, group in groups.items():
         users = [RouletteUser.objects.get(pk=user_id) for user_id in group]
         for user in users:
             try:
                 other_users = [u for u in users if u.id != user.id]
                 slack_user = SlackUser.objects.get(user=user)
-                notify_matching_result(
-                    instance, slack_user, other_users)
+                _notify_matching_result_(
+                    roulette, slack_user, other_users)
             except SlackUser.DoesNotExist:
                 # TODO: try to correllate user with slack by the email we have. Maybe he didn't vote, but the admin added him.
-                not_notified_user_names.append(user.name)
-                error_details.append(
-                    "We don't know how to find user {0} on Slack.".format(user.name))
+                errors.append(
+                    (user.name, "We don't know how to find user {0} on Slack.".format(user.name)))
             except Exception as exception:
-                not_notified_user_names.append(user.name)
-                error_details.append(
-                    "Error happened while sending a notification to {0}: {1}.".format(user.name, exception))
-    if len(not_notified_user_names) + len(error_details) > 0:
+                errors.append((user.name, "Error happened while sending a notification to {0}: {1}.".format(
+                    user.name, exception)))
+    return errors
+
+
+def _post_matching_summary_(roulette, groups):
+    """
+    Send a final message on the roulette thread, telling that the matching is done.
+    """
+    try:
+        user_count = sum([len(group) for group in groups.values()])
+        message = "Thank you for your votes. A total of {0} user(s) are going to meet.\n" \
+            "If you participate, you will get a personal message with your match soon.".format(
+                user_count)
+        slack_roulette = SlackRoulette.objects.get(roulette=roulette)
+        post_on_thread(slack_roulette.channel_id,
+                       slack_roulette.thread_timestamp, message)
+    except Exception as exception:
+        return [(None, "Could not post public matching summary: {0}".format(exception))]
+    return []
+
+
+def _notify_admins_about_errors_(errors):
+    if len(errors) > 0:
         # Notify the admins about errors
+        not_notified_user_names, error_details = tuple(zip(*errors))
+        not_notified_user_names = [
+            user_name for user_name in not_notified_user_names if user_name is not None]
         message = "While notifying users about roulette results, some errors happened.\n" \
             "These users weren't notified: {0}\n" \
             "Details:\n{1}".format(
                 ", ".join(not_notified_user_names), "\n".join(error_details))
         post_im_to_all_admins(message)
-    # TODO send a message to everyone, finalizing the thread
+
+
+@receiver(post_matching)
+def broadcast_matching_results(sender, instance, groups, **kwargs):
+    # When a matching is done, send IMs to affected users on Slack
+    if not SlackRoulette.objects.filter(roulette=instance).exists():
+        return  # A roulette without Slack Roulette - do nothing.
+    errors = _notify_all_matching_results_(instance, groups)
+    errors.extend(_post_matching_summary_(instance, groups))
+    _notify_admins_about_errors_(errors)

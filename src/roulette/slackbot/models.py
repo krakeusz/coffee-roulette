@@ -7,10 +7,13 @@ class SlackUser(models.Model):
     """ Extends the RouletteUser model with Slack user id field.
         This field can be queried from Slack API, for example if we know user's email.
         The idea is that by default a RouletteUser exists without assigned SlackUser,
-        but when the SlackUser could be used, it will be created by reading user list from Slack.
+        but if the user interacts on Slack, or we need to send him a Slack message, a SlackUser instance is created.
     """
+    # user The required connection to the Roulette user model.
     user = models.OneToOneField(RouletteUser, on_delete=models.CASCADE)
+    # slack_user_id The user ID assigned by Slack. Needed to send IMs to the user through Slack Web API, and to properly assign Slack messages to our RouletteUsers.
     slack_user_id = models.CharField(max_length=20, unique=True)
+    # im_channel The ID of one-to-one message channel, opened when we send the first message to the user.
     im_channel = models.CharField(max_length=20, default="", blank=True)
 
     def __str__(self):
@@ -20,6 +23,7 @@ class SlackUser(models.Model):
 class SlackAdminUser(models.Model):
     """ Extends the django.contrib.auth.User by providing Slack user ID.
         All SlackAdminUsers will be notified on Slack in case an error or warning happens.
+        Being a SlackAdminUser does not imply being a SlackUser. If the admin want to take part in roulettes, he/she needs to create a RouletteUser.
     """
     user = models.OneToOneField(auth.models.User, on_delete=models.CASCADE)
     slack_user_id = models.CharField(max_length=20, unique=True)
