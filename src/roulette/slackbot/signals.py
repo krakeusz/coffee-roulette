@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from matcher.models import Roulette, RouletteUser
 from matcher.signals import post_matching
 from .models import SlackRoulette, SlackUser
-from .webapi import post_on_channel, post_on_thread, post_im_to_all_admins, post_im
+from .webapi import corellate_slack_user_by_email, post_on_channel, post_on_thread, post_im_to_all_admins, post_im
 from django.conf import settings
 from django.utils import timezone
 
@@ -62,13 +62,14 @@ def _notify_all_matching_results_(roulette, groups):
         for user in users:
             try:
                 other_users = [u for u in users if u.id != user.id]
+                if not SlackUser.objects.filter(user=user).exists():
+                    corellate_slack_user_by_email(user)
                 slack_user = SlackUser.objects.get(user=user)
                 _notify_matching_result_(
                     roulette, slack_user, other_users)
             except SlackUser.DoesNotExist:
-                # TODO: try to correllate user with slack by the email we have. Maybe he didn't vote, but the admin added him.
                 errors.append(
-                    (user.name, "We don't know how to find user {0} on Slack.".format(user.name)))
+                    (user.name, "User {0} could not be found on Slack. His email {1} is not tied to his/her Slack account".format(user.name, user.email)))
             except Exception as exception:
                 errors.append((user.name, "Error happened while sending a notification to {0}: {1}.".format(
                     user.name, exception)))

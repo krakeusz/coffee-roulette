@@ -135,6 +135,21 @@ def get_or_corellate_slack_user(webclient, slack_user_id):
     return slack_user_to_dict(slack_user)
 
 
+def corellate_slack_user_by_email(roulette_user):
+    """
+    Find a user on Slack given the email field in RouletteUser parameter.
+    If this succeeds, create and return a SlackUser instance.
+    Raise an Exception if there was no such Slack user or the Slack Web API returns an error.
+    """
+    response = create_web_client().users_lookupByEmail(email=roulette_user.email)
+    if not response["ok"]:
+        # TODO it seems that we can't enter this branch because, on error, slack client throws an exception by itself.
+        # After writing tests, try to remove all bad response handling code from this file.
+        raise Exception("Could not find Slack user by email {0}: {1}".format(
+            roulette_user.email, response["error"]))
+    return SlackUser.objects.create(user=roulette_user, slack_user_id=response["user"]["id"])
+
+
 def parse_vote(message_text, slack_user, roulette):
     """
     Try to parse user's message, which is supposed to be a vote.
