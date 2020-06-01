@@ -4,18 +4,23 @@
 
 {% block content %}
 
+
+<div>
+    <h3>Slack configuration</h3>
+    {% if slack_workspace %}
+    <p>Channel to use: <em>{{ slack_workspace.roulette_channel }}</em></p>
+    <p>Bot token: <em>&lt;secret&gt;</em></p>
+    {% else %}
+    <p>Slack workspace not connected. Please <a href="{% url 'admin:slackbot_slackworkspace_add' %}">connect now</a>.
+    </p>
+    {% endif %}
+</div>
+
+{% if slack_workspace %}
 <form action="{% url 'slackbot:send_message' %}" method="post">
     {% csrf_token %}
     <input class="btn btn-success" type="submit" value="Send a test message to all admins on Slack" />
 </form>
-<div>
-    <p>Slack channel to use: 
-        {% if slack_channel %}
-            {{ slack_channel }}
-        {% else %}
-            no channel set. Please edit your slackbot_local.py configuration file.
-        {% endif %}
-    </p>
-</div>
+{% endif %}
 
 {% endblock %}

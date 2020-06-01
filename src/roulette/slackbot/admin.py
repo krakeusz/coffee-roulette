@@ -8,3 +8,6 @@ class SlackUserInline(admin.TabularInline):
 
 class SlackAdminUserInline(admin.TabularInline):
     model = SlackAdminUser
+
+
+admin.site.register(SlackWorkspace)

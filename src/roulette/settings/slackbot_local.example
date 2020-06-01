@@ -1,9 +1,0 @@
-# Change the settings here and rename the file to slackbot_local.py
-
-# This is the token that allows bot to interact with Slack API.
-# As of now, just install the bot to a workspace, then generate this key and copy-paste it here.
-SLACK_BOT_TOKEN = "xoxb-top-secret"
-
-# Name of the Slack channel that the bot will use to post messages meant to be read by everyone.
-# All channels start with '#' sign.
-SLACK_CHANNEL = "#coffee-roulette"

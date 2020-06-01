@@ -5,40 +5,40 @@ from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from django.urls import reverse
 
-from .models import SlackAdminUser, SlackRoulette
+from .exceptions import NoWorkspaceError
+from .models import SlackAdminUser, SlackRoulette, SlackWorkspace
 from matcher.models import Vote, Roulette, RouletteUser
-from .webapi import post_im, fetch_votes as fetch_votes_impl
-
-
-def get_slack_channel_or_none():
-    try:
-        return django_settings.SLACK_CHANNEL
-    except:
-        return None
+from .webapi import BotClient
 
 
 def settings(request):
-    slack_channel = get_slack_channel_or_none()
-    return render(request, 'slackbot/settings.html', {'slack_channel': slack_channel})
+    slack_workspace = None
+    if SlackWorkspace.objects.exists():
+        slack_workspace = SlackWorkspace.objects.get()
+    return render(request, 'slackbot/settings.html', {'slack_workspace': slack_workspace})
 
 
 @require_POST
 def send_hello_to_admins(request):
-    users = SlackAdminUser.objects.all()
-    if len(users) == 0:
-        return HttpResponseRedirect(reverse('slackbot:no_admins'))
-    for user in users:
-        post_im(
-            user, "Hi! This is a test message sent from the Coffee Roulette Django backend.")
-    return HttpResponseRedirect(reverse('slackbot:message_sent'))
+    try:
+        users = SlackAdminUser.objects.all()
+        if len(users) == 0:
+            return HttpResponseRedirect(reverse('slackbot:send_message_failure'), args=['no_admins'])
+        client = BotClient()
+        for user in users:
+            client.post_im(
+                user, "Hi! This is a test message sent from the Coffee Roulette Django backend.")
+        return HttpResponseRedirect(reverse('slackbot:send_message_success'))
+    except NoWorkspaceError:
+        return HttpResponseRedirect(reverse('slackbot:send_message_failure'), args=['no_slack_workspace'])
 
 
-def message_sent(request):
-    return render(request, 'slackbot/message_sent.html')
+def send_message_success(request):
+    return render(request, 'slackbot/send_message/success.html')
 
 
-def no_admins(request):
-    return render(request, 'slackbot/no_admins.html', {'user': request.user})
+def send_message_failure(request, failure_type):
+    return render(request, 'slackbot/send_message/failure.html', {'user': request.user, 'failure_type': failure_type})
 
 
 @require_POST
@@ -50,11 +50,13 @@ def fetch_votes(request, roulette_id):
             failure_type = 'too_late_for_changing_votes'
             raise Exception()
         slack_roulette = SlackRoulette.objects.get(roulette=int(roulette_id))
-        vote_list = fetch_votes_impl(slack_roulette)
+        vote_list = BotClient().fetch_votes(slack_roulette)
         request.session['slackbot_vote_list'] = vote_list
         return HttpResponseRedirect(reverse('slackbot:fetch_votes_success', args=[roulette_id]))
     except SlackRoulette.DoesNotExist:
         failure_type = 'no_slack_thread'
+    except NoWorkspaceError:
+        failure_type = 'no_slack_workspace'
     except Exception as exception:
         print(exception)
     return HttpResponseRedirect(reverse('slackbot:fetch_votes_failure', args=[roulette_id, failure_type]))

@@ -3,6 +3,32 @@ from django.db import models
 from matcher.models import Roulette, RouletteUser
 
 
+class AtMostOneInstanceModel(models.Model):
+    """ A Model that can have only one instance in database. """
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        """
+        Save object to the database. Removes all other entries if there
+        are any.
+        """
+        self.__class__.objects.exclude(id=self.id).delete()
+        super(AtMostOneInstanceModel, self).save(*args, **kwargs)
+
+
+class SlackWorkspace(AtMostOneInstanceModel):
+    """
+    Provides constants required for communication with Slack workspace.
+    There can be only one instance in database. We don't support multiple workspaces.
+    """
+    roulette_channel = models.CharField(
+        max_length=255, help_text="Name of the Slack channel that the bot will post public messages on. Starts with #.")
+    bot_api_token = models.CharField(
+        max_length=255, help_text="A secret token that allows using Slack Web API, tied to a Slack app installation.")
+
+
 class SlackUser(models.Model):
     """ Extends the RouletteUser model with Slack user id field.
         This field can be queried from Slack API, for example if we know user's email.

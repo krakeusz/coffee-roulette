@@ -5,8 +5,10 @@ app_name = 'slackbot'
 urlpatterns = [
     path('settings', views.settings, name='settings'),
     path('send_message', views.send_hello_to_admins, name='send_message'),
-    path('message_sent', views.message_sent, name='message_sent'),
-    path('no_admins', views.no_admins, name='no_admins'),
+    path('send_message/success', views.send_message_success,
+         name='send_message_success'),
+    path('send_message/failure/<slug:failure_type>',
+         views.send_message_failure, name='send_message_failure'),
     path('fetch_votes/<int:roulette_id>/',
          views.fetch_votes, name='fetch_votes'),
     path('fetch_votes/<int:roulette_id>/success/',

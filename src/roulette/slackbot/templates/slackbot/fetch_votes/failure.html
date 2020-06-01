@@ -7,6 +7,8 @@
     <p>This roulette hasn't been broadcast on Slack. Downloading Slack votes failed.</p>
     <p>It seems that when the roulette was created, Slack integration didn't work. Please check if Slack integration
         works and create a new roulette.</p>
+    {% elif failure_type == 'no_slack_workspace' %}
+    <p>This web application doesn't have a Slack workspace configured. Cannot access Slack.</p>
     {% elif failure_type == 'too_late_for_changing_votes' %}
     <p>Votes cannot be changed now, because matches have been already generated.</p>
     {% else %}
