@@ -19,7 +19,7 @@ From now on, 'Users' are people that can be matched in coffee roulette. 'Admin' 
 - A server that can run this Django application. This server doesn't need to be visible from public Internet, it only needs to be accessible by the admin(s) via web browser. The app has been tested on Windows, MacOS and Ubuntu Linux.
 - (optional) A slack workspace where a custom Slack Bot will run. The bot will send voting invitation messages on a channel you choose, and private messages to the users that participate in the roulette. You will have enough Slack privileges to add this bot if you're the workspace owner. Note that Slack integration is optional. Given no Slack bot, the user votes can only be changed by the admin in web interface.
 
-## Required Slack bot permissions (scopes) {#permissions}
+## Required Slack bot permissions (scopes)
 The application has been tested only with all these permissions enabled in the bot configuration.
 | Permission name | Slack detailed explanation | Our explanation |
 | --------------- | -------------------------- | --------------- |
@@ -93,10 +93,12 @@ Thanks to Slack integration, users will be able to vote, instead of relying on a
 First, you'll create a new Slack App, which will be used as a bot. The preferred installation scheme is the workspace installation. Your bot
 (app) will be installed only to your Slack workspace. If ever in doubt, check out [the official Slack tutorial about bots](https://api.slack.com/bot-users#getting-started). Please note that the Slack administration GUI changes from time to time, so you might see different options then what's in this README or even what's in official documentation.
 
+You should have enough Slack permissions to be able to install an app. These permissions are configured by your workspace's Owners and possibly Admins, under workspace settings, App Directory, "Require App Approval".
+
 1. Start by [creating your Slack App](https://api.slack.com/apps/new). Suggested App Name is 'Coffee Roulette'. Choose your workspace as Development Slack Workspace.
 2. Configure your bot permissions inside the Slack app.
 
-Under your app settings, click the tab "App home", then "Review Scopes to Add". Under "Bot Token Scopes", add all the permissions mentioned [earlier in this README](#permissions)</a>.
+Under your app settings, click the tab "App home", then "Review Scopes to Add". Under "Bot Token Scopes", add all the permissions mentioned [earlier in this README](#required-slack-bot-permissions-scopes)</a>.
 
 3. Change the bot's names.
 
