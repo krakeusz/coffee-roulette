@@ -117,7 +117,7 @@ Go to coffee-roulette website, enter "Slack settings" in the top navigation bar,
 from Slack, and choose a channel where bot will communicate its messages. If it's a new channel, you need to create it on Slack. You can reuse one of your old channels,
 if you want to.
 
-Now you only need to add the bot to your channel on Slack - it needs Slack permission. Go to Slack workspace, under "Apps" select your bot, "Details", "More", "Add this app to a channel...".
+Now you only need to add the bot to your channel on Slack - it needs Slack permission. Go to Slack workspace, under "Apps" select your bot, "Details", "More", "Add this app to a channel...". Alternatively, if that method doesn't work, try going to the Slack, enter your channel, and click the "Add Bot" option.
 
 6. (suggested) Connect your admin coffee-roulette account with Slack account. This will let you receive Slack IMs in case of errors, and test if Slack integration works.
 
