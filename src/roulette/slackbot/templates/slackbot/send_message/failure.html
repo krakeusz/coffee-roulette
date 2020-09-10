@@ -11,6 +11,8 @@
     <p>You can add Slack admin users by going to <a href="{% url 'admin:auth_user_change' user.id %}">the User admin
             page</a> and providing Slack user ID.
         To get user ID, go to your Slack instance, select your account, view profile, Copy member ID.</p>
+    {% else %}
+    <p>An unknown error happened. Please see the server logs for more details.</p>
     {% endif %}
     <p><a class="btn btn-secondary" role="button" href="{% url 'slackbot:settings' %}">Go back</a></p>
 </div>

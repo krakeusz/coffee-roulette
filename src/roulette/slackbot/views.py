@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.views.decorators.http import require_POST
 from django.urls import reverse
 
-from .exceptions import NoWorkspaceError
+from .exceptions import NoWorkspaceError, SlackbotError
 from .models import SlackAdminUser, SlackRoulette, SlackWorkspace
 from matcher.models import Vote, Roulette, RouletteUser
 from .webapi import BotClient
@@ -23,14 +23,17 @@ def send_hello_to_admins(request):
     try:
         users = SlackAdminUser.objects.all()
         if len(users) == 0:
-            return HttpResponseRedirect(reverse('slackbot:send_message_failure'), args=['no_admins'])
+            return HttpResponseRedirect(reverse('slackbot:send_message_failure', args=['no_admins']))
         client = BotClient()
         for user in users:
             client.post_im(
                 user, "Hi! This is a test message sent from the Coffee Roulette Django backend.")
         return HttpResponseRedirect(reverse('slackbot:send_message_success'))
     except NoWorkspaceError:
-        return HttpResponseRedirect(reverse('slackbot:send_message_failure'), args=['no_slack_workspace'])
+        return HttpResponseRedirect(reverse('slackbot:send_message_failure', args=['no_slack_workspace']))
+    except Exception as ex:
+        print(str(ex))
+        return HttpResponseRedirect(reverse('slackbot:send_message_failure', args=['unknown_error']))
 
 
 def send_message_success(request):
@@ -41,7 +44,7 @@ def send_message_failure(request, failure_type):
     return render(request, 'slackbot/send_message/failure.html', {'user': request.user, 'failure_type': failure_type})
 
 
-@require_POST
+@ require_POST
 def fetch_votes(request, roulette_id):
     failure_type = 'unknown'
     try:
