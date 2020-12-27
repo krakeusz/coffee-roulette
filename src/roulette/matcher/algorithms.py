@@ -3,6 +3,8 @@ from django.conf import settings
 import time
 import random
 from queue import Queue
+from enum import Enum
+from .models import RouletteUser
 
 
 def merge_matches(matches):
@@ -36,7 +38,7 @@ def merge_matches(matches):
 
 
 def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user):
-    """ Input: Graph in format: [(user1, [(user2, weight), ...]), ...] """
+    """ Input: Graph in format: [(user1, [(user2, weight, penalty_info), ...]), ...] """
     """ Returns: list of tuples of users """
     if len(graph) <= 1:
         return []  # Not enough users
@@ -62,11 +64,11 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
                 continue
             processed_user_ids.add(user.id)
             possible_matches = [(user2, weight) for (
-                user2, weight) in neighbors if user2.id not in processed_user_ids]
+                user2, weight, _) in neighbors if user2.id not in processed_user_ids]
             if len(possible_matches) == 0:
                 singleton_user_ids.add(user.id)
             else:
-                (user2, weight) = random.sample(possible_matches, 1)[0]
+                (user2, weight, _) = random.sample(possible_matches, 1)[0]
                 processed_user_ids.add(user2.id)
                 # List, not tuple, because we could modify it later
                 matches.append([user, user2])
@@ -82,7 +84,7 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
                 random_group = random.choice(matches)
                 for group_user in random_group:
                     edge_exists = False
-                    for (user2, weight) in neighbors:
+                    for (user2, weight, _) in neighbors:
                         if group_user.id == user2.id:
                             total_penalty += weight
                             edge_exists = True
@@ -99,3 +101,30 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
             has_time = False
     print("iterations: " + str(iterations))
     return best_solution
+
+class MatchColor(Enum):
+    GREEN = 1
+    YELLOW = 2
+    RED = 3
+
+class MatchQuality:
+    users = ()
+    total_weight = 0.0
+    color = None
+
+    def description(self) -> str:
+        pass
+
+
+def get_matches_quality(graph, matches, penalty_for_grouping_with_forbidden_user) -> MatchQuality:
+    """
+    Calculate quality of each match in matches.
+    graph: Graph in format: [(user1, [(user2, weight, penalty_info), ...]), ...]
+    matches: A list of tuples of users matched with each other.
+    penalty_for_grouping_with_forbidden_user: penalty for taking edge that doesn't exist in the graph
+    Returns: a list of MatchQuality objects, for each match in matches.
+    """
+    pass
+
+
+

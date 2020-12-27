@@ -43,7 +43,7 @@ class GraphAnalyzer(object):
         self.users = {}
         for (user, edge_list) in graph:
             edges = {}
-            for user2, weight in edge_list:
+            for user2, weight, _ in edge_list:
                 edges[user2.id] = weight
             self.users[user.id] = edges
 
