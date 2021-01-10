@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 from dataclasses import dataclass, field
+from enum import Enum
 from typing import List
 
 class RouletteUser(models.Model):
@@ -138,6 +139,7 @@ class Match(models.Model):
 
 
 class ExclusionGroup(models.Model):
+    """ Describes a group of users, that should not be matched at all (if possible). """
     users = models.ManyToManyField(RouletteUser)
     custom_name = models.CharField(
         max_length=128, blank=True, help_text="If left empty, it will be automatically generated.")
@@ -152,6 +154,7 @@ class ExclusionGroup(models.Model):
 
 
 class PenaltyGroup(models.Model):
+    """ Describes a group of users, that should be matched only rarely. """
     users = models.ManyToManyField(RouletteUser)
     custom_name = models.CharField(
         max_length=128, blank=True, help_text="If left empty, it will be automatically generated.")
@@ -230,9 +233,14 @@ class PenaltyInfo:
     number_matches: int = 0
     number_matches_penalty: float = 0.0
     recent_matches: List[RecentMatchInfo] = field(default_factory = list)
+    is_forbidden: bool = False
+    forbidden_penalty: float = 0.0
 
     def total_penalty(self):
-        return self.penalty_group_penalty + self.number_matches_penalty + sum(match.penalty for match in self.recent_matches)
+        return self.penalty_group_penalty + \
+        self.number_matches_penalty + \
+        sum(match.penalty for match in self.recent_matches) + \
+        self.forbidden_penalty
 
     def __str__(self):
         lines = []
@@ -244,7 +252,39 @@ class PenaltyInfo:
         if len(self.recent_matches) > 0:
             for match in self.recent_matches:
                 lines.append("Penalty {0} for: a recent match, {1} days ago.".format(match.penalty, match.days_ago))
+        if self.is_forbidden:
+            lines.append("Penalty {0} for: users matched despite being in ")
         return '\n'.join(lines)
+
+class MatchColor(Enum):
+    GREEN = 1
+    YELLOW = 2
+    RED = 3
+
+class MatchQuality:
+    """ Describes quality of matches between users in a match group.
+    len(users_a) == len(users_b) == len(penalty_infos)
+    For example, if the match group contains two users, then these lists have 1 element each, because
+     there is one edge(match). But for a match group with three users, the lists have 3 elements each
+     due to the fact that there are 3 edges between 3 users.
+    A given pair (a, b) of users appears only once - so the pair (b, a) doesn't appear.
+    """
+    users_a = []
+    users_b = []
+    penalty_infos = []
+    color = None
+
+    def __str__(self):
+        desc = []
+        for user_a, user_b, penalty_info in zip(self.users_a, self.users_b, self.penalty_infos):
+            desc.append("{0} - {1}".format(user_a.name, user_b.name))
+            desc.append(str(penalty_info))
+            desc.append("")
+        return "\n".join(desc)
+
+    def total_penalty(self):
+        return sum(p.total_penalty() for p in self.penalty_infos)
+
 
 def matching_graph(users):
     """ Returns [(user1, [(user2, weight, penalty_info), ...]), ...] """

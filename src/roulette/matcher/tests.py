@@ -4,6 +4,7 @@ from django.test import TestCase
 from django.utils import timezone
 
 from .models import Roulette, Vote, Match, RouletteUser, ExclusionGroup, PenaltyGroup, PenaltyForNumberOfMatches, get_last_roulette, matching_graph
+from .algorithms import get_matches_quality
 
 
 def create_natural_number_users(n_users):
@@ -46,15 +47,22 @@ class GraphAnalyzer(object):
             for user2, weight, _ in edge_list:
                 edges[user2.id] = weight
             self.users[user.id] = edges
-
-    def assertAndRemoveEdge(self, user1_id, user2_id, expected_weight=None):
+    
+    def assertEdgeExists(self, user1_id, user2_id, expected_weight=None):
         self.testcase.assertIn(user1_id, self.users)
         user1_edges = self.users[user1_id]
         self.testcase.assertIn(user2_id, user1_edges)
         if expected_weight is not None:
             self.testcase.assertAlmostEqual(expected_weight, user1_edges[user2_id],
                                             msg="edge between users {0} and {1} should have weight {2}, but got {3}".format(user1_id, user2_id, expected_weight, user1_edges[user2_id]))
-        user1_edges.pop(user2_id)
+    
+    def assertTwoEdgesExist(self, user1_id, user2_id, expected_weight=None):
+        self.assertEdgeExists(user1_id, user2_id, expected_weight)
+        self.assertEdgeExists(user2_id, user1_id, expected_weight)
+
+    def assertAndRemoveEdge(self, user1_id, user2_id, expected_weight=None):
+        self.assertEdgeExists(user1_id, user2_id, expected_weight)
+        self.users[user1_id].pop(user2_id)
 
     def assertAndRemoveTwoEdges(self, user1_id, user2_id, expected_weight=None):
         self.assertAndRemoveEdge(user1_id, user2_id, expected_weight)
@@ -172,3 +180,17 @@ class MatchingGraphGenerationTests(TestCase):
         g.assertAndRemoveTwoEdges(3, 4, penalty_after_one_day)
 
         # TODO test with a roulette with matches, but no matching time
+
+class MatchQualityAnalysisTests(TestCase):
+    def test_perfect_matches_are_green(self):
+        users = create_natural_number_users(4)
+        roulette = Roulette.objects.create(vote_deadline=timezone.now(), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
+        graph = matching_graph(users)
+        g = GraphAnalyzer(graph, self)
+        for a in range(1, 5):
+            for b in range(1, 5):
+                if a != b:
+                    g.assertEdgeExists(a, b, 0)
+        matches = [set(users[:2]), set(users[2:])]
+        print("\n".join(map(str, get_matches_quality(graph, matches, 100.0))))
+        self.assertFalse(True)

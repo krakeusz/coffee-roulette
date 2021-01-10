@@ -4,8 +4,7 @@ import time
 import random
 from queue import Queue
 from enum import Enum
-from .models import RouletteUser
-
+from .models import MatchColor, MatchQuality, PenaltyInfo, RouletteUser
 
 def merge_matches(matches):
     """ Given a list of Matches, returns a list of user tuples (groups) """
@@ -68,7 +67,7 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
             if len(possible_matches) == 0:
                 singleton_user_ids.add(user.id)
             else:
-                (user2, weight, _) = random.sample(possible_matches, 1)[0]
+                (user2, weight) = random.sample(possible_matches, 1)[0]
                 processed_user_ids.add(user2.id)
                 # List, not tuple, because we could modify it later
                 matches.append([user, user2])
@@ -102,19 +101,6 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
     print("iterations: " + str(iterations))
     return best_solution
 
-class MatchColor(Enum):
-    GREEN = 1
-    YELLOW = 2
-    RED = 3
-
-class MatchQuality:
-    users = ()
-    total_weight = 0.0
-    color = None
-
-    def description(self) -> str:
-        pass
-
 
 def get_matches_quality(graph, matches, penalty_for_grouping_with_forbidden_user) -> MatchQuality:
     """
@@ -124,7 +110,64 @@ def get_matches_quality(graph, matches, penalty_for_grouping_with_forbidden_user
     penalty_for_grouping_with_forbidden_user: penalty for taking edge that doesn't exist in the graph
     Returns: a list of MatchQuality objects, for each match in matches.
     """
-    pass
+    def get_graph_weights():
+        graph_weights = []
+        for _, edges in graph:
+            for _, weight, _ in edges:
+                graph_weights.append(weight)
+        graph_weights.sort()
+        return graph_weights
 
+    # Return the maximum weight, for an edge to belong to a percentile.
+    def get_threshold(percentile, graph_weights):
+        threshold_index = math.ceil(len(graph_weights) * percentile / 100.0) - 1
+        if threshold_index < 0:
+            return -math.inf
+        if threshold_index >= len(graph_weights):
+            return math.inf
+        return graph_weights[threshold_index]
+    
+    # Return the graph dictionary: { user_id -> (user, edges) }
+    # where edges is a list of (user_b, weight, penalty_info).
+    def get_graph_as_dict(graph_list):
+        graph_dict = {}
+        for user, edges in graph_list:
+            graph_dict[user.id] = (user, edges)
+        return graph_dict
 
+    def get_color(weight, green_threshold, yellow_threshold):
+        if weight <= green_threshold:
+            return MatchColor.GREEN
+        if weight <= yellow_threshold:
+            return MatchColor.YELLOW
+        return MatchColor.RED
 
+    def get_all_pairs(match_set):
+        return filter(lambda users: users[0].id < users[1].id, zip(match_set, match_set))
+     
+    graph_weights = get_graph_weights()
+    green_threshold = get_threshold(settings.MATCHER_GREEN_PERCENTILE, graph_weights)
+    yellow_threshold = get_threshold(settings.MATCHER_YELLOW_PERCENTILE, graph_weights)
+    graph_dict = get_graph_as_dict(graph)
+    match_qualities = []
+
+    for match in matches:
+        match_quality = MatchQuality()
+        for user_a, user_b in get_all_pairs(match):
+            match_quality.users_a.append(user_a)
+            match_quality.users_b.append(user_b)
+            edge_found = False
+            for user, weight, penalty_info in graph_dict[user_a.id][1]:
+                if user.id == user_b.id:
+                    edge_found = True
+                    match_quality.penalty_infos.append(penalty_info)
+                    color = get_color(weight, green_threshold, yellow_threshold)
+                    if match_quality.color is None or match_quality.color.value < color.value:
+                        match_quality.color = color
+                    break
+            if not edge_found:
+                penalty_info = PenaltyInfo(is_forbidden=True, forbidden_penalty=penalty_for_grouping_with_forbidden_user)
+                match_quality.penalty_infos.append(penalty_info)
+        match_qualities.append(match_quality)
+
+    return match_qualities
