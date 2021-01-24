@@ -6,6 +6,7 @@ from queue import Queue
 from enum import Enum
 from .models import MatchColor, MatchQuality, PenaltyInfo, RouletteUser
 
+
 def merge_matches(matches):
     """ Given a list of Matches, returns a list of user tuples (groups) """
     graph = {}  # user_id -> (user, list of users matched with)
@@ -120,13 +121,14 @@ def get_matches_quality(graph, matches, penalty_for_grouping_with_forbidden_user
 
     # Return the maximum weight, for an edge to belong to a percentile.
     def get_threshold(percentile, graph_weights):
-        threshold_index = math.ceil(len(graph_weights) * percentile / 100.0) - 1
+        threshold_index = math.ceil(
+            len(graph_weights) * percentile / 100.0) - 1
         if threshold_index < 0:
             return -math.inf
         if threshold_index >= len(graph_weights):
             return math.inf
         return graph_weights[threshold_index]
-    
+
     # Return the graph dictionary: { user_id -> (user, edges) }
     # where edges is a list of (user_b, weight, penalty_info).
     def get_graph_as_dict(graph_list):
@@ -143,11 +145,13 @@ def get_matches_quality(graph, matches, penalty_for_grouping_with_forbidden_user
         return MatchColor.RED
 
     def get_all_pairs(match_set):
-        return filter(lambda users: users[0].id < users[1].id, zip(match_set, match_set))
-     
+        return [(user_a, user_b) for user_a in match_set for user_b in match_set if user_a.id < user_b.id]
+
     graph_weights = get_graph_weights()
-    green_threshold = get_threshold(settings.MATCHER_GREEN_PERCENTILE, graph_weights)
-    yellow_threshold = get_threshold(settings.MATCHER_YELLOW_PERCENTILE, graph_weights)
+    green_threshold = get_threshold(
+        settings.MATCHER_GREEN_PERCENTILE, graph_weights)
+    yellow_threshold = get_threshold(
+        settings.MATCHER_YELLOW_PERCENTILE, graph_weights)
     graph_dict = get_graph_as_dict(graph)
     match_qualities = []
 
@@ -161,12 +165,14 @@ def get_matches_quality(graph, matches, penalty_for_grouping_with_forbidden_user
                 if user.id == user_b.id:
                     edge_found = True
                     match_quality.penalty_infos.append(penalty_info)
-                    color = get_color(weight, green_threshold, yellow_threshold)
+                    color = get_color(
+                        weight, green_threshold, yellow_threshold)
                     if match_quality.color is None or match_quality.color.value < color.value:
                         match_quality.color = color
                     break
             if not edge_found:
-                penalty_info = PenaltyInfo(is_forbidden=True, forbidden_penalty=penalty_for_grouping_with_forbidden_user)
+                penalty_info = PenaltyInfo(
+                    is_forbidden=True, forbidden_penalty=penalty_for_grouping_with_forbidden_user)
                 match_quality.penalty_infos.append(penalty_info)
         match_qualities.append(match_quality)
 

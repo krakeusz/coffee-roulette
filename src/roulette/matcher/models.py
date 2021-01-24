@@ -7,6 +7,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import List
 
+
 class RouletteUser(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
@@ -220,10 +221,12 @@ def get_last_roulette():
     """ Returns either the last Roulette (by matching date) or None if there aren't any. """
     return Roulette.objects.exclude(matchings_found_on=None).order_by("-matchings_found_on").first()
 
+
 @dataclass
 class RecentMatchInfo():
     penalty: float = 0.0
     days_ago: int = 0
+
 
 @dataclass
 class PenaltyInfo:
@@ -232,34 +235,39 @@ class PenaltyInfo:
     penalty_group_penalty: float = 0.0
     number_matches: int = 0
     number_matches_penalty: float = 0.0
-    recent_matches: List[RecentMatchInfo] = field(default_factory = list)
+    recent_matches: List[RecentMatchInfo] = field(default_factory=list)
     is_forbidden: bool = False
     forbidden_penalty: float = 0.0
 
     def total_penalty(self):
         return self.penalty_group_penalty + \
-        self.number_matches_penalty + \
-        sum(match.penalty for match in self.recent_matches) + \
-        self.forbidden_penalty
+            self.number_matches_penalty + \
+            sum(match.penalty for match in self.recent_matches) + \
+            self.forbidden_penalty
 
     def __str__(self):
         lines = []
         lines.append("Total penalty: {0}.".format(self.total_penalty()))
         if self.penalty_group_count > 0:
-            lines.append("Penalty {0} for: users in penalty group {1} time(s).".format(self.penalty_group_penalty, self.penalty_group_count))
+            lines.append("Penalty {0} for: users in penalty group {1} time(s).".format(
+                self.penalty_group_penalty, self.penalty_group_count))
         if self.number_matches > 0:
-            lines.append("Penalty {0} for: users matched in the past {1} time(s).".format(self.number_matches_penalty, self.number_matches))
+            lines.append("Penalty {0} for: users matched in the past {1} time(s).".format(
+                self.number_matches_penalty, self.number_matches))
         if len(self.recent_matches) > 0:
             for match in self.recent_matches:
-                lines.append("Penalty {0} for: a recent match, {1} days ago.".format(match.penalty, match.days_ago))
+                lines.append("Penalty {0} for: a recent match, {1} days ago.".format(
+                    match.penalty, match.days_ago))
         if self.is_forbidden:
             lines.append("Penalty {0} for: users matched despite being in ")
         return '\n'.join(lines)
+
 
 class MatchColor(Enum):
     GREEN = 1
     YELLOW = 2
     RED = 3
+
 
 class MatchQuality:
     """ Describes quality of matches between users in a match group.
@@ -269,10 +277,12 @@ class MatchQuality:
      due to the fact that there are 3 edges between 3 users.
     A given pair (a, b) of users appears only once - so the pair (b, a) doesn't appear.
     """
-    users_a = []
-    users_b = []
-    penalty_infos = []
-    color = None
+
+    def __init__(self):
+        self.users_a = []
+        self.users_b = []
+        self.penalty_infos = []
+        self.color = None
 
     def __str__(self):
         desc = []
@@ -330,7 +340,8 @@ def matching_graph(users):
             user_user2_matches = Match.objects.filter(
                 Q(user_a=user, user_b=user2) | Q(user_a=user2, user_b=user))
             penalty_info.number_matches = len(user_user2_matches)
-            penalty_info.number_matches_penalty = penalty_info.number_matches * penalty_for_number_matches
+            penalty_info.number_matches_penalty = penalty_info.number_matches * \
+                penalty_for_number_matches
             # Penalties for recent matches
             recent_user_user2_matches = user_user2_matches.filter(
                 roulette__matchings_found_on__gte=now - timedelta(days=365)).all()
@@ -339,7 +350,7 @@ def matching_graph(users):
                 days_passed = time_passed.days
                 recent_match = RecentMatchInfo()
                 recent_match.penalty = max(0.0, penalty_for_recent_match *
-                               (1.0 - days_passed / 365.0))  # linear relationship
+                                           (1.0 - days_passed / 365.0))  # linear relationship
                 recent_match.days_ago = days_passed
                 penalty_info.recent_matches.append(recent_match)
             edges.append((user2, penalty_info.total_penalty(), penalty_info))
