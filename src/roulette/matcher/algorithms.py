@@ -103,14 +103,17 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
     return best_solution
 
 
-def get_matches_quality(graph, matches, penalty_for_grouping_with_forbidden_user) -> MatchQuality:
+def get_matches_quality(graph, matches, penalty_for_grouping_with_forbidden_user, green_percentile_threshold=settings.MATCHER_GREEN_PERCENTILE, yellow_percentile_threshold=settings.MATCHER_YELLOW_PERCENTILE) -> MatchQuality:
     """
     Calculate quality of each match in matches.
     graph: Graph in format: [(user1, [(user2, weight, penalty_info), ...]), ...]
     matches: A list of tuples of users matched with each other.
     penalty_for_grouping_with_forbidden_user: penalty for taking edge that doesn't exist in the graph
+    green_percentile_threshold: a float threshold that tells how many edges in the graph are not green (yellow or red). If none, a default from settings.MATCHER_GREEN_PERCENTILE will be used.
+    yellow_percentile_threshold: a float threshold that tells how many edges in the graph are  green or yellow (not red). If none, a default from settings.MATCHER_YELLOW_PERCENTILE will be used.
     Returns: a list of MatchQuality objects, for each match in matches.
     """
+
     def get_graph_weights():
         graph_weights = []
         for _, edges in graph:
@@ -149,9 +152,9 @@ def get_matches_quality(graph, matches, penalty_for_grouping_with_forbidden_user
 
     graph_weights = get_graph_weights()
     green_threshold = get_threshold(
-        settings.MATCHER_GREEN_PERCENTILE, graph_weights)
+        green_percentile_threshold, graph_weights)
     yellow_threshold = get_threshold(
-        settings.MATCHER_YELLOW_PERCENTILE, graph_weights)
+        yellow_percentile_threshold, graph_weights)
     graph_dict = get_graph_as_dict(graph)
     match_qualities = []
 

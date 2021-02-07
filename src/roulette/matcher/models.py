@@ -269,6 +269,7 @@ class MatchColor(Enum):
     RED = 3
 
 
+@dataclass
 class MatchQuality:
     """ Describes quality of matches between users in a match group.
     len(users_a) == len(users_b) == len(penalty_infos)
@@ -278,11 +279,10 @@ class MatchQuality:
     A given pair (a, b) of users appears only once - so the pair (b, a) doesn't appear.
     """
 
-    def __init__(self):
-        self.users_a = []
-        self.users_b = []
-        self.penalty_infos = []
-        self.color = None
+    users_a: List[RouletteUser] = field(default_factory=list)
+    users_b: List[RouletteUser] = field(default_factory=list)
+    penalty_infos: List[PenaltyInfo] = field(default_factory=list)
+    color: MatchColor = None
 
     def __str__(self):
         desc = []

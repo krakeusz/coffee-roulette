@@ -5,6 +5,6 @@ MATCHER_MONTECARLO_TIMEOUT_MS = 1000
 # Allowed values: [0, 100]
 MATCHER_GREEN_PERCENTILE = 33.3
 
-# The percentile, at or below which the weight is considered average (yello). This is used for evaluation of matches.
+# The percentile, at or below which the weight is considered average (yellow). This is used for evaluation of matches.
 # Allowed values: [0, 100]
 MATCHER_YELLOW_PERCENTILE = 66.6

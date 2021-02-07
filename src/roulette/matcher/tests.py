@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.test import TestCase
 from django.utils import timezone
 
-from .models import Roulette, Vote, Match, RouletteUser, ExclusionGroup, PenaltyGroup, PenaltyForNumberOfMatches, get_last_roulette, matching_graph, MatchColor
+from .models import Roulette, Vote, Match, RouletteUser, ExclusionGroup, PenaltyGroup, PenaltyForPenaltyGroup, PenaltyForNumberOfMatches, get_last_roulette, matching_graph, MatchColor
 from .algorithms import get_matches_quality
 
 
@@ -183,13 +183,17 @@ class MatchingGraphGenerationTests(TestCase):
 
 
 class MatchQualityAnalysisTests(TestCase):
+    GREEN_PERCENTILE = 33.3
+    YELLOW_PERCENTILE = 66.6
+
     def test_perfect_matches_are_green(self):
         users = create_natural_number_users(4)
         Roulette.objects.create(vote_deadline=timezone.now(
         ), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
         graph = matching_graph(users)
         matches = [set(users[:2]), set(users[2:])]
-        match_qualities = get_matches_quality(graph, matches, 100.0)
+        match_qualities = get_matches_quality(
+            graph, matches, 100.0, self.GREEN_PERCENTILE, self.YELLOW_PERCENTILE)
 
         self.assertEqual(len(match_qualities), 2)
         self.assertEqual(match_qualities[0].users_a, [users[0]])
@@ -197,6 +201,58 @@ class MatchQualityAnalysisTests(TestCase):
         self.assertEqual(match_qualities[0].color, MatchColor.GREEN)
         self.assertEqual(
             match_qualities[0].penalty_infos[0].total_penalty(), 0)
+
+        self.assertEqual(match_qualities[1].users_a, [users[2]])
+        self.assertEqual(match_qualities[1].users_b, [users[3]])
+        self.assertEqual(match_qualities[1].color, MatchColor.GREEN)
+        self.assertEqual(
+            match_qualities[1].penalty_infos[0].total_penalty(), 0)
+
+    def test_matches_with_red_penalty(self):
+        users = create_natural_number_users(4)
+        penaltyGroup = PenaltyGroup.objects.create()
+        penaltyGroup.users.add(users[0], users[1])
+        penaltyGroup.save()
+        Roulette.objects.create(vote_deadline=timezone.now(
+        ), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
+        graph = matching_graph(users)
+        matches = [set(users[:2]), set(users[2:])]
+        match_qualities = get_matches_quality(
+            graph, matches, 100.0, self.GREEN_PERCENTILE, self.YELLOW_PERCENTILE)
+
+        self.assertEqual(len(match_qualities), 2)
+        self.assertEqual(match_qualities[0].users_a, [users[0]])
+        self.assertEqual(match_qualities[0].users_b, [users[1]])
+        # We have 6 undirected edges, 1 of which is with a penalty. 5/6 is above the yellow threshold, so the edge should be marked red.
+        self.assertEqual(match_qualities[0].color, MatchColor.RED)
+        self.assertEqual(
+            match_qualities[0].penalty_infos[0].total_penalty(), PenaltyForPenaltyGroup.objects.get_or_create()[0].penalty)
+
+        self.assertEqual(match_qualities[1].users_a, [users[2]])
+        self.assertEqual(match_qualities[1].users_b, [users[3]])
+        self.assertEqual(match_qualities[1].color, MatchColor.GREEN)
+        self.assertEqual(
+            match_qualities[1].penalty_infos[0].total_penalty(), 0)
+
+    def test_matches_with_yellow_penalty(self):
+        users = create_natural_number_users(4)
+        penaltyGroup = PenaltyGroup.objects.create()
+        penaltyGroup.users.add(users[0], users[1], users[2])
+        penaltyGroup.save()
+        Roulette.objects.create(vote_deadline=timezone.now(
+        ), coffee_deadline=timezone.now(), matchings_found_on=timezone.now())
+        graph = matching_graph(users)
+        matches = [set(users[:2]), set(users[2:])]
+        match_qualities = get_matches_quality(
+            graph, matches, 100.0, self.GREEN_PERCENTILE, self.YELLOW_PERCENTILE)
+
+        self.assertEqual(len(match_qualities), 2)
+        self.assertEqual(match_qualities[0].users_a, [users[0]])
+        self.assertEqual(match_qualities[0].users_b, [users[1]])
+        # We have 6 undirected edges, 3 of which is with a penalty. 3/6 is above the green threshold, but below the yellow - so the edge should be yellow.
+        self.assertEqual(match_qualities[0].color, MatchColor.YELLOW)
+        self.assertEqual(
+            match_qualities[0].penalty_infos[0].total_penalty(), PenaltyForPenaltyGroup.objects.get_or_create()[0].penalty)
 
         self.assertEqual(match_qualities[1].users_a, [users[2]])
         self.assertEqual(match_qualities[1].users_b, [users[3]])
