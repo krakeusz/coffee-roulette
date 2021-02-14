@@ -1,15 +1,15 @@
 import math
+from typing import Dict, List, Tuple
 from django.conf import settings
 import time
 import random
 from queue import Queue
 from enum import Enum
-from .models import MatchColor, MatchQuality, PenaltyInfo, RouletteUser
+from .models import Match, MatchColor, MatchQuality, MatchingGraph, PenaltyInfo, RouletteUser
 
 
-def merge_matches(matches):
-    """ Given a list of Matches, returns a list of user tuples (groups) """
-    graph = {}  # user_id -> (user, list of users matched with)
+def merge_matches(matches: List[Match]) -> List[List[RouletteUser]]:
+    graph: Dict[str, Tuple[RouletteUser, List[RouletteUser]]] = {}
     for match in matches:
         user, neighbors = graph.get(str(match.user_a.id), (match.user_a, []))
         neighbors.append(match.user_b)
@@ -22,7 +22,7 @@ def merge_matches(matches):
     # BFS search through graph to form connected components (groups)
     for (user, _) in graph.values():
         group = []
-        q = Queue()
+        q: Queue[RouletteUser] = Queue()
         q.put(user)
         while not q.empty():
             u = q.get()
@@ -37,9 +37,7 @@ def merge_matches(matches):
     return groups
 
 
-def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user):
-    """ Input: Graph in format: [(user1, [(user2, weight, penalty_info), ...]), ...] """
-    """ Returns: list of tuples of users """
+def generate_matches_montecarlo(graph: MatchingGraph, penalty_for_grouping_with_forbidden_user: float) -> List[Tuple[RouletteUser, ...]]:
     if len(graph) <= 1:
         return []  # Not enough users
     best_solution = []
@@ -54,7 +52,7 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
         processed_user_ids = set()
         random.shuffle(not_processed_nodes)
         singleton_user_ids = set()
-        matches = []
+        matches: List[List[RouletteUser]] = []
         total_penalty = 0.0
         while len(not_processed_nodes) > 0:
             (user, neighbors) = not_processed_nodes[-1]
@@ -93,9 +91,9 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
                         total_penalty += penalty_for_grouping_with_forbidden_user
                 random_group.append(user)
         # Convert lists back to tuples
-        matches = [tuple(l) for l in matches]
+        solution = [tuple(l) for l in matches]
         if total_penalty < best_solution_penalty:
-            best_solution = matches
+            best_solution = solution
             best_solution_penalty = total_penalty
         if time.monotonic() > end_after:
             has_time = False
@@ -103,7 +101,7 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
     return best_solution
 
 
-def get_matches_quality(graph, matches, penalty_for_grouping_with_forbidden_user, green_percentile_threshold=settings.MATCHER_GREEN_PERCENTILE, yellow_percentile_threshold=settings.MATCHER_YELLOW_PERCENTILE) -> MatchQuality:
+def get_matches_quality(graph: MatchingGraph, matches, penalty_for_grouping_with_forbidden_user, green_percentile_threshold=settings.MATCHER_GREEN_PERCENTILE, yellow_percentile_threshold=settings.MATCHER_YELLOW_PERCENTILE) -> List[MatchQuality]:
     """
     Calculate quality of each match in matches.
     graph: Graph in format: [(user1, [(user2, weight, penalty_info), ...]), ...]

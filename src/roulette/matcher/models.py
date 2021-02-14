@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.utils import timezone
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import List
+from typing import List, Optional, Tuple
 
 
 class RouletteUser(models.Model):
@@ -239,7 +239,7 @@ class PenaltyInfo:
     is_forbidden: bool = False
     forbidden_penalty: float = 0.0
 
-    def total_penalty(self):
+    def total_penalty(self) -> float:
         return self.penalty_group_penalty + \
             self.number_matches_penalty + \
             sum(match.penalty for match in self.recent_matches) + \
@@ -282,7 +282,7 @@ class MatchQuality:
     users_a: List[RouletteUser] = field(default_factory=list)
     users_b: List[RouletteUser] = field(default_factory=list)
     penalty_infos: List[PenaltyInfo] = field(default_factory=list)
-    color: MatchColor = None
+    color: Optional[MatchColor] = None
 
     def __str__(self):
         desc = []
@@ -292,12 +292,19 @@ class MatchQuality:
             desc.append("")
         return "\n".join(desc)
 
-    def total_penalty(self):
+    def total_penalty(self) -> float:
         return sum(p.total_penalty() for p in self.penalty_infos)
 
 
-def matching_graph(users):
-    """ Returns [(user1, [(user2, weight, penalty_info), ...]), ...] """
+MatchingGraphEdge = Tuple[RouletteUser, float, PenaltyInfo]
+MatchingGraphVertex = Tuple[RouletteUser, List[MatchingGraphEdge]]
+"""
+A graph, where vertices are the users, and the edges have weights - the bigger the weight, the greater the penalty if the match (edge) is taken.
+"""
+MatchingGraph = List[MatchingGraphVertex]
+
+
+def matching_graph(users: List[RouletteUser]) -> MatchingGraph:
     graph = []
     penalty_for_penalty_group = PenaltyForPenaltyGroup.objects.get_or_create()[
         0].penalty
