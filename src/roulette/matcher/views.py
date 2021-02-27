@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.utils import timezone
 from django.urls import reverse
 from django.views.decorators.http import require_POST
-from .algorithms import generate_matches_montecarlo, merge_matches
+from .algorithms import generate_matches_montecarlo, get_matches_quality, merge_matches
 from .models import Match, Roulette, RouletteUser, PenaltyForGroupingWithForbiddenUser, matching_graph
 from .signals import post_matching
 import re
@@ -60,7 +60,10 @@ def run_roulette(request, roulette_id):
         0].penalty
     matches = generate_matches_montecarlo(
         graph, penalty_for_grouping_with_forbidden_user)
-    context = {'matches': matches, 'roulette': r}
+    matches_quality = get_matches_quality(graph,
+                                          matches, penalty_for_grouping_with_forbidden_user)
+    context = {'matches': matches, 'roulette': r,
+               'matches_quality': matches_quality}
     # TODO refactor this to use session data instead
     return render(request, 'matcher/matcher.html', context)
 

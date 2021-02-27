@@ -3,6 +3,9 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
 from django.utils import timezone
+from dataclasses import dataclass, field
+from enum import Enum
+from typing import List, Optional, Tuple
 
 
 class RouletteUser(models.Model):
@@ -137,6 +140,7 @@ class Match(models.Model):
 
 
 class ExclusionGroup(models.Model):
+    """ Describes a group of users, that should not be matched at all (if possible). """
     users = models.ManyToManyField(RouletteUser)
     custom_name = models.CharField(
         max_length=128, blank=True, help_text="If left empty, it will be automatically generated.")
@@ -151,6 +155,7 @@ class ExclusionGroup(models.Model):
 
 
 class PenaltyGroup(models.Model):
+    """ Describes a group of users, that should be matched only rarely. """
     users = models.ManyToManyField(RouletteUser)
     custom_name = models.CharField(
         max_length=128, blank=True, help_text="If left empty, it will be automatically generated.")
@@ -212,13 +217,104 @@ class PenaltyForGroupingWithForbiddenUser(SingletonModel):
     penalty = models.FloatField(default=10.0)
 
 
-def get_last_roulette():
+def get_last_roulette() -> Roulette:
     """ Returns either the last Roulette (by matching date) or None if there aren't any. """
     return Roulette.objects.exclude(matchings_found_on=None).order_by("-matchings_found_on").first()
 
 
-def matching_graph(users):
-    """ Returns [(user1, [(user2, weight), ...]), ...] """
+@dataclass
+class RecentMatchInfo():
+    penalty: float = 0.0
+    days_ago: int = 0
+
+
+@dataclass
+class PenaltyInfo:
+    """ Describes a penalty for one edge. """
+    penalty_group_count: int = 0
+    penalty_group_penalty: float = 0.0
+    number_matches: int = 0
+    number_matches_penalty: float = 0.0
+    recent_matches: List[RecentMatchInfo] = field(default_factory=list)
+    is_forbidden: bool = False
+    forbidden_penalty: float = 0.0
+
+    def total_penalty(self) -> float:
+        return self.penalty_group_penalty + \
+            self.number_matches_penalty + \
+            sum(match.penalty for match in self.recent_matches) + \
+            self.forbidden_penalty
+
+    def str_lines(self):
+        lines = []
+        lines.append("Total penalty: {0:.2f}.".format(self.total_penalty()))
+        if self.penalty_group_count > 0:
+            lines.append("Penalty {0:.2f} for: users in penalty group {1} time(s).".format(
+                self.penalty_group_penalty, self.penalty_group_count))
+        if self.number_matches > 0:
+            lines.append("Penalty {0:.2f} for: users matched {1} time(s) in the past.".format(
+                self.number_matches_penalty, self.number_matches))
+        if len(self.recent_matches) > 0:
+            for match in self.recent_matches:
+                lines.append("Penalty {0:.2f} for: a recent match, {1} days ago.".format(
+                    match.penalty, match.days_ago))
+        if self.is_forbidden:
+            lines.append(
+                "Penalty {0:.2f} for: users matched despite being in an exclusion group.")
+        return lines
+
+    def __str__(self):
+        return '\n'.join(self.str_lines())
+
+
+class MatchColor(Enum):
+    GREEN = "green"
+    YELLOW = "yellow"
+    RED = "red"
+
+
+@dataclass
+class MatchQuality:
+    """ Describes quality of matches between users in a match group.
+    len(users_a) == len(users_b) == len(penalty_infos)
+    For example, if the match group contains two users, then these lists have 1 element each, because
+     there is one edge(match). But for a match group with three users, the lists have 3 elements each
+     due to the fact that there are 3 edges between 3 users.
+    A given pair (a, b) of users appears only once - so the pair (b, a) doesn't appear.
+    """
+
+    users_a: List[RouletteUser] = field(default_factory=list)
+    users_b: List[RouletteUser] = field(default_factory=list)
+    penalty_infos: List[PenaltyInfo] = field(default_factory=list)
+    color: MatchColor = MatchColor.GREEN
+
+    def str_lines(self):
+        desc = []
+        for user_a, user_b, penalty_info in zip(self.users_a, self.users_b, self.penalty_infos):
+            desc.append("{0} - {1}".format(user_a.name, user_b.name))
+            desc.extend(penalty_info.str_lines())
+            desc.append("")
+        return desc
+
+    def __str__(self):
+        return '\n'.join(self.str_lines())
+
+    def total_penalty(self) -> float:
+        return sum(p.total_penalty() for p in self.penalty_infos)
+
+    def users_in_match_group(self) -> List[RouletteUser]:
+        return list(set(self.users_a).union(set(self.users_b)))
+
+
+MatchingGraphEdge = Tuple[RouletteUser, float, PenaltyInfo]
+MatchingGraphVertex = Tuple[RouletteUser, List[MatchingGraphEdge]]
+"""
+A graph, where vertices are the users, and the edges have weights - the bigger the weight, the greater the penalty if the match (edge) is taken.
+"""
+MatchingGraph = List[MatchingGraphVertex]
+
+
+def matching_graph(users: List[RouletteUser]) -> MatchingGraph:
     graph = []
     penalty_for_penalty_group = PenaltyForPenaltyGroup.objects.get_or_create()[
         0].penalty
@@ -249,26 +345,32 @@ def matching_graph(users):
             # Add edges
             if user2.id in user_ids_excluded:
                 continue
-            penalty = 0.0
+            penalty_info = PenaltyInfo()
             # And calculate the weights for them - penalty for penalty group
             groups_user2 = PenaltyGroup.objects.filter(
                 users__id=user2.id).all()
             for group in groups_user2:
                 if RouletteUser.objects.filter(penaltygroup__id=group.id).filter(id=user.id).exists():
-                    penalty += penalty_for_penalty_group
+                    penalty_info.penalty_group_count += 1
+                    penalty_info.penalty_group_penalty += penalty_for_penalty_group
             # Penalty for number of matches
             user_user2_matches = Match.objects.filter(
                 Q(user_a=user, user_b=user2) | Q(user_a=user2, user_b=user))
-            penalty += len(user_user2_matches) * penalty_for_number_matches
+            penalty_info.number_matches = len(user_user2_matches)
+            penalty_info.number_matches_penalty = penalty_info.number_matches * \
+                penalty_for_number_matches
             # Penalties for recent matches
             recent_user_user2_matches = user_user2_matches.filter(
                 roulette__matchings_found_on__gte=now - timedelta(days=365)).all()
             for match in recent_user_user2_matches:
                 time_passed = now - match.roulette.matchings_found_on
                 days_passed = time_passed.days
-                penalty += max(0.0, penalty_for_recent_match *
-                               (1.0 - days_passed / 365.0))  # linear relationship
-            edges.append((user2, penalty))
+                recent_match = RecentMatchInfo()
+                recent_match.penalty = max(0.0, penalty_for_recent_match *
+                                           (1.0 - days_passed / 365.0))  # linear relationship
+                recent_match.days_ago = days_passed
+                penalty_info.recent_matches.append(recent_match)
+            edges.append((user2, penalty_info.total_penalty(), penalty_info))
 
         graph.append((user, edges))
     return graph

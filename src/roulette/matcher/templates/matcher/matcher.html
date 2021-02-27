@@ -1,43 +1,72 @@
 {% extends "matcher/index.html" %}
+{% load matcher_extra_filters %}
 
 {% block content %}
 
 <div class="row">
-<div class="col">
-<h2>Roulette results</h2>
-{% if matches %}
-    <p>These haven't been saved yet. </p>
-    <ol>
-    {% for group in matches %}
-        <li>
-            {% for user in group %}
-                {% if not forloop.first %} - {% endif %}
-                {{ user.name }}
+    <div class="col">
+        <h2>Roulette results</h2>
+        {% if matches %}
+        <p>These haven't been saved yet. </p>
+        <ol>
+            {% for group in matches_quality %}
+            <div class="row">
+                <li>
+                    <p>
+                        {% for user in group.users_in_match_group %}
+                        {% if not forloop.first %} - {% endif %}
+                        {{ user.name }}
+                        {% endfor %}
+                        <span class="badge penalty-info
+                        {% if group.color|is_green %}
+                            badge-success
+                        {% elif group.color|is_yellow %}
+                            badge-warning
+                        {% elif group.color|is_red %}
+                            badge-danger
+                        {% endif %}
+                        ">
+                            penalty: {{ group.total_penalty|floatformat:2 }}
+                        </span>
+                        <button class="btn btn-link btn-sm" type="button" data-toggle="collapse"
+                            data-target="#collapse-{{ forloop.counter }}">
+                            Details...
+                        </button>
+                    </p>
+                    <div class="collapse" id="collapse-{{ forloop.counter }}">
+                        <div class="card card-body">
+                            {% for line in group.str_lines %}
+                            {% if not forloop.first %}<br />{% endif %}
+                            {{ line }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </li>
+            </div>
             {% endfor %}
-        </li>
-    {% endfor %}
-    </ol>
-    <form action="{% url 'matcher:submit' roulette.pk %}" method="post">
-        {% csrf_token %}
-        {% for group in matches %}
+        </ol>
+        <form action="{% url 'matcher:submit' roulette.pk %}" method="post">
+            {% csrf_token %}
+            {% for group in matches %}
             {% for user in group %}
-                <input type="hidden" name="user{{ user.id }}" value="{{ forloop.parentloop.counter }}" />
+            <input type="hidden" name="user{{ user.id }}" value="{{ forloop.parentloop.counter }}" />
             {% endfor %}
-        {% endfor %}
-        <input class="btn btn-success" type="submit" value="Submit" />
-        <a class="btn btn-primary" role="button" href="{% url 'matcher:run' roulette.pk %}">Run again</a>
-        <a class="btn btn-secondary" role="button" href="{% url 'matcher:roulette' roulette.pk %}">
+            {% endfor %}
+            <input class="btn btn-success" type="submit" value="Submit" />
+            <a class="btn btn-primary" role="button" href="{% url 'matcher:run' roulette.pk %}">Run again</a>
+            <a class="btn btn-secondary" role="button" href="{% url 'matcher:roulette' roulette.pk %}">
                 Go back
-        </a>
-    </form>
+            </a>
+        </form>
 
-{% else %}
-    <p>No matches generated. Maybe there were not enough participating users? </p>
-    <a class="btn btn-secondary" role="button" href="{% url 'matcher:roulette' roulette.pk %}">
+        {% else %}
+        <p>No matches generated. Maybe there were not enough participating users? </p>
+        <a class="btn btn-secondary" role="button" href="{% url 'matcher:roulette' roulette.pk %}">
             Go back
         </a>
-{% endif %}
+        {% endif %}
 
+    </div>
 </div>
-</div>
+
 {% endblock %}

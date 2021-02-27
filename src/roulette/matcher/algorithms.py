@@ -1,13 +1,15 @@
 import math
+from typing import Dict, List, Tuple
 from django.conf import settings
 import time
 import random
 from queue import Queue
+from enum import Enum
+from .models import Match, MatchColor, MatchQuality, MatchingGraph, PenaltyInfo, RouletteUser
 
 
-def merge_matches(matches):
-    """ Given a list of Matches, returns a list of user tuples (groups) """
-    graph = {}  # user_id -> (user, list of users matched with)
+def merge_matches(matches: List[Match]) -> List[List[RouletteUser]]:
+    graph: Dict[str, Tuple[RouletteUser, List[RouletteUser]]] = {}
     for match in matches:
         user, neighbors = graph.get(str(match.user_a.id), (match.user_a, []))
         neighbors.append(match.user_b)
@@ -20,7 +22,7 @@ def merge_matches(matches):
     # BFS search through graph to form connected components (groups)
     for (user, _) in graph.values():
         group = []
-        q = Queue()
+        q: Queue[RouletteUser] = Queue()
         q.put(user)
         while not q.empty():
             u = q.get()
@@ -35,9 +37,7 @@ def merge_matches(matches):
     return groups
 
 
-def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user):
-    """ Input: Graph in format: [(user1, [(user2, weight), ...]), ...] """
-    """ Returns: list of tuples of users """
+def generate_matches_montecarlo(graph: MatchingGraph, penalty_for_grouping_with_forbidden_user: float) -> List[Tuple[RouletteUser, ...]]:
     if len(graph) <= 1:
         return []  # Not enough users
     best_solution = []
@@ -52,7 +52,7 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
         processed_user_ids = set()
         random.shuffle(not_processed_nodes)
         singleton_user_ids = set()
-        matches = []
+        matches: List[List[RouletteUser]] = []
         total_penalty = 0.0
         while len(not_processed_nodes) > 0:
             (user, neighbors) = not_processed_nodes[-1]
@@ -62,7 +62,7 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
                 continue
             processed_user_ids.add(user.id)
             possible_matches = [(user2, weight) for (
-                user2, weight) in neighbors if user2.id not in processed_user_ids]
+                user2, weight, _) in neighbors if user2.id not in processed_user_ids]
             if len(possible_matches) == 0:
                 singleton_user_ids.add(user.id)
             else:
@@ -82,7 +82,7 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
                 random_group = random.choice(matches)
                 for group_user in random_group:
                     edge_exists = False
-                    for (user2, weight) in neighbors:
+                    for (user2, weight, _) in neighbors:
                         if group_user.id == user2.id:
                             total_penalty += weight
                             edge_exists = True
@@ -91,11 +91,90 @@ def generate_matches_montecarlo(graph, penalty_for_grouping_with_forbidden_user)
                         total_penalty += penalty_for_grouping_with_forbidden_user
                 random_group.append(user)
         # Convert lists back to tuples
-        matches = [tuple(l) for l in matches]
+        solution = [tuple(l) for l in matches]
         if total_penalty < best_solution_penalty:
-            best_solution = matches
+            best_solution = solution
             best_solution_penalty = total_penalty
         if time.monotonic() > end_after:
             has_time = False
     print("iterations: " + str(iterations))
     return best_solution
+
+
+def get_matches_quality(graph: MatchingGraph, matches, penalty_for_grouping_with_forbidden_user, green_percentile_threshold=settings.MATCHER_GREEN_PERCENTILE, yellow_percentile_threshold=settings.MATCHER_YELLOW_PERCENTILE) -> List[MatchQuality]:
+    """
+    Calculate quality of each match in matches.
+    graph: Graph in format: [(user1, [(user2, weight, penalty_info), ...]), ...]
+    matches: A list of tuples of users matched with each other.
+    penalty_for_grouping_with_forbidden_user: penalty for taking edge that doesn't exist in the graph
+    green_percentile_threshold: a float threshold that tells how many edges in the graph are not green (yellow or red). If none, a default from settings.MATCHER_GREEN_PERCENTILE will be used.
+    yellow_percentile_threshold: a float threshold that tells how many edges in the graph are  green or yellow (not red). If none, a default from settings.MATCHER_YELLOW_PERCENTILE will be used.
+    Returns: a list of MatchQuality objects, for each match in matches.
+    """
+
+    def get_graph_weights():
+        graph_weights = []
+        for _, edges in graph:
+            for _, weight, _ in edges:
+                graph_weights.append(weight)
+        graph_weights.sort()
+        return graph_weights
+
+    # Return the maximum weight, for an edge to belong to a percentile.
+    def get_threshold(percentile, graph_weights):
+        threshold_index = math.ceil(
+            len(graph_weights) * percentile / 100.0) - 1
+        if threshold_index < 0:
+            return -math.inf
+        if threshold_index >= len(graph_weights):
+            return math.inf
+        return graph_weights[threshold_index]
+
+    # Return the graph dictionary: { user_id -> (user, edges) }
+    # where edges is a list of (user_b, weight, penalty_info).
+    def get_graph_as_dict(graph_list):
+        graph_dict = {}
+        for user, edges in graph_list:
+            graph_dict[user.id] = (user, edges)
+        return graph_dict
+
+    def get_color(weight, green_threshold, yellow_threshold):
+        if weight <= green_threshold:
+            return MatchColor.GREEN
+        if weight <= yellow_threshold:
+            return MatchColor.YELLOW
+        return MatchColor.RED
+
+    def get_all_pairs(match_set):
+        return [(user_a, user_b) for user_a in match_set for user_b in match_set if user_a.id < user_b.id]
+
+    graph_weights = get_graph_weights()
+    green_threshold = get_threshold(
+        green_percentile_threshold, graph_weights)
+    yellow_threshold = get_threshold(
+        yellow_percentile_threshold, graph_weights)
+    graph_dict = get_graph_as_dict(graph)
+    match_qualities = []
+
+    for match in matches:
+        match_quality = MatchQuality()
+        for user_a, user_b in get_all_pairs(match):
+            match_quality.users_a.append(user_a)
+            match_quality.users_b.append(user_b)
+            edge_found = False
+            for user, weight, penalty_info in graph_dict[user_a.id][1]:
+                if user.id == user_b.id:
+                    edge_found = True
+                    match_quality.penalty_infos.append(penalty_info)
+                    color = get_color(
+                        weight, green_threshold, yellow_threshold)
+                    if match_quality.color is None or match_quality.color.value < color.value:
+                        match_quality.color = color
+                    break
+            if not edge_found:
+                penalty_info = PenaltyInfo(
+                    is_forbidden=True, forbidden_penalty=penalty_for_grouping_with_forbidden_user)
+                match_quality.penalty_infos.append(penalty_info)
+        match_qualities.append(match_quality)
+
+    return match_qualities
