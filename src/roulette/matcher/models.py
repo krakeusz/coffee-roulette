@@ -217,7 +217,7 @@ class PenaltyForGroupingWithForbiddenUser(SingletonModel):
     penalty = models.FloatField(default=10.0)
 
 
-def get_last_roulette():
+def get_last_roulette() -> Roulette:
     """ Returns either the last Roulette (by matching date) or None if there aren't any. """
     return Roulette.objects.exclude(matchings_found_on=None).order_by("-matchings_found_on").first()
 
@@ -245,28 +245,32 @@ class PenaltyInfo:
             sum(match.penalty for match in self.recent_matches) + \
             self.forbidden_penalty
 
-    def __str__(self):
+    def str_lines(self):
         lines = []
-        lines.append("Total penalty: {0}.".format(self.total_penalty()))
+        lines.append("Total penalty: {0:.2f}.".format(self.total_penalty()))
         if self.penalty_group_count > 0:
-            lines.append("Penalty {0} for: users in penalty group {1} time(s).".format(
+            lines.append("Penalty {0:.2f} for: users in penalty group {1} time(s).".format(
                 self.penalty_group_penalty, self.penalty_group_count))
         if self.number_matches > 0:
-            lines.append("Penalty {0} for: users matched in the past {1} time(s).".format(
+            lines.append("Penalty {0:.2f} for: users matched {1} time(s) in the past.".format(
                 self.number_matches_penalty, self.number_matches))
         if len(self.recent_matches) > 0:
             for match in self.recent_matches:
-                lines.append("Penalty {0} for: a recent match, {1} days ago.".format(
+                lines.append("Penalty {0:.2f} for: a recent match, {1} days ago.".format(
                     match.penalty, match.days_ago))
         if self.is_forbidden:
-            lines.append("Penalty {0} for: users matched despite being in ")
-        return '\n'.join(lines)
+            lines.append(
+                "Penalty {0:.2f} for: users matched despite being in an exclusion group.")
+        return lines
+
+    def __str__(self):
+        return '\n'.join(self.str_lines())
 
 
 class MatchColor(Enum):
-    GREEN = 1
-    YELLOW = 2
-    RED = 3
+    GREEN = "green"
+    YELLOW = "yellow"
+    RED = "red"
 
 
 @dataclass
@@ -282,18 +286,24 @@ class MatchQuality:
     users_a: List[RouletteUser] = field(default_factory=list)
     users_b: List[RouletteUser] = field(default_factory=list)
     penalty_infos: List[PenaltyInfo] = field(default_factory=list)
-    color: Optional[MatchColor] = None
+    color: MatchColor = MatchColor.GREEN
 
-    def __str__(self):
+    def str_lines(self):
         desc = []
         for user_a, user_b, penalty_info in zip(self.users_a, self.users_b, self.penalty_infos):
             desc.append("{0} - {1}".format(user_a.name, user_b.name))
-            desc.append(str(penalty_info))
+            desc.extend(penalty_info.str_lines())
             desc.append("")
-        return "\n".join(desc)
+        return desc
+
+    def __str__(self):
+        return '\n'.join(self.str_lines())
 
     def total_penalty(self) -> float:
         return sum(p.total_penalty() for p in self.penalty_infos)
+
+    def users_in_match_group(self) -> List[RouletteUser]:
+        return list(set(self.users_a).union(set(self.users_b)))
 
 
 MatchingGraphEdge = Tuple[RouletteUser, float, PenaltyInfo]

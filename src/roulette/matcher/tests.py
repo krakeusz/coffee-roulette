@@ -347,3 +347,15 @@ class MatchQualityAnalysisTests(TestCase):
         self.assertTrue(penalty_info.is_forbidden)
         self.assertEqual(penalty_info.forbidden_penalty, 100.0)
         self.assertAlmostEqual(penalty_info.total_penalty(), 100.0)
+
+    def test_four_users_in_match_group(self):
+        users = create_positive_numbers_users(4)
+        graph = matching_graph(users)
+        matches = [set(users)]
+        match_qualities = get_matches_quality(
+            graph, matches, 100.0, self.GREEN_PERCENTILE, self.YELLOW_PERCENTILE)
+        self.assertEqual(len(match_qualities), 1)
+        match_quality = match_qualities[0]
+        self.assertEqual(6, len(match_quality.users_a))
+        self.assertEqual(6, len(match_quality.users_b))
+        self.assertCountEqual(match_quality.users_in_match_group(), users)
