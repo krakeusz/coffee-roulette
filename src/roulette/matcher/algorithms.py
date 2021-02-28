@@ -1,3 +1,4 @@
+from dataclasses import dataclass, field
 import math
 from typing import Dict, List, Tuple
 from django.conf import settings
@@ -37,11 +38,17 @@ def merge_matches(matches: List[Match]) -> List[List[RouletteUser]]:
     return groups
 
 
-def generate_matches_montecarlo(graph: MatchingGraph, penalty_for_grouping_with_forbidden_user: float) -> List[Tuple[RouletteUser, ...]]:
+@dataclass
+class Matching():
+    matches: List[Tuple[RouletteUser, ...]] = field(default_factory=list)
+    total_penalty: float = 0.0
+
+
+def generate_matches_montecarlo(graph: MatchingGraph, penalty_for_grouping_with_forbidden_user: float) -> Matching:
     if len(graph) <= 1:
-        return []  # Not enough users
-    best_solution = []
-    best_solution_penalty = math.inf
+        return Matching()  # Not enough users
+    best_matching = Matching()
+    best_matching.total_penalty = math.inf
     timeout_seconds = settings.MATCHER_MONTECARLO_TIMEOUT_MS / 1000.0
     end_after = time.monotonic() + timeout_seconds
     has_time = True
@@ -92,16 +99,16 @@ def generate_matches_montecarlo(graph: MatchingGraph, penalty_for_grouping_with_
                 random_group.append(user)
         # Convert lists back to tuples
         solution = [tuple(l) for l in matches]
-        if total_penalty < best_solution_penalty:
-            best_solution = solution
-            best_solution_penalty = total_penalty
+        if total_penalty < best_matching.total_penalty:
+            best_matching.matches = solution
+            best_matching.total_penalty = total_penalty
         if time.monotonic() > end_after:
             has_time = False
     print("iterations: " + str(iterations))
-    return best_solution
+    return best_matching
 
 
-def get_matches_quality(graph: MatchingGraph, matches, penalty_for_grouping_with_forbidden_user, green_percentile_threshold=settings.MATCHER_GREEN_PERCENTILE, yellow_percentile_threshold=settings.MATCHER_YELLOW_PERCENTILE) -> List[MatchQuality]:
+def get_matches_quality(graph: MatchingGraph, matches: List[Tuple[RouletteUser, ...]], penalty_for_grouping_with_forbidden_user, green_percentile_threshold=settings.MATCHER_GREEN_PERCENTILE, yellow_percentile_threshold=settings.MATCHER_YELLOW_PERCENTILE) -> List[MatchQuality]:
     """
     Calculate quality of each match in matches.
     graph: Graph in format: [(user1, [(user2, weight, penalty_info), ...]), ...]

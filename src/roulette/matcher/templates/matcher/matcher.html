@@ -6,8 +6,9 @@
 <div class="row">
     <div class="col">
         <h2>Roulette results</h2>
-        {% if matches %}
+        {% if matching.matches %}
         <p>These haven't been saved yet. </p>
+        <p>Total penalty (the lower, the better): {{ matching.total_penalty|floatformat:2 }}</p>
         <ol>
             {% for group in matches_quality %}
             <div class="row">
@@ -47,7 +48,7 @@
         </ol>
         <form action="{% url 'matcher:submit' roulette.pk %}" method="post">
             {% csrf_token %}
-            {% for group in matches %}
+            {% for group in matching.matches %}
             {% for user in group %}
             <input type="hidden" name="user{{ user.id }}" value="{{ forloop.parentloop.counter }}" />
             {% endfor %}

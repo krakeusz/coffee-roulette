@@ -58,11 +58,11 @@ def run_roulette(request, roulette_id):
     graph = matching_graph(users)
     penalty_for_grouping_with_forbidden_user = PenaltyForGroupingWithForbiddenUser.objects.get_or_create()[
         0].penalty
-    matches = generate_matches_montecarlo(
+    matching = generate_matches_montecarlo(
         graph, penalty_for_grouping_with_forbidden_user)
     matches_quality = get_matches_quality(graph,
-                                          matches, penalty_for_grouping_with_forbidden_user)
-    context = {'matches': matches, 'roulette': r,
+                                          matching.matches, penalty_for_grouping_with_forbidden_user)
+    context = {'matching': matching, 'roulette': r,
                'matches_quality': matches_quality}
     # TODO refactor this to use session data instead
     return render(request, 'matcher/matcher.html', context)
