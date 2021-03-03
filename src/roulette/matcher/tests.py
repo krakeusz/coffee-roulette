@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 from django.shortcuts import get_object_or_404
 from django.test import TestCase
 from django.utils import timezone
@@ -359,3 +359,20 @@ class MatchQualityAnalysisTests(TestCase):
         self.assertEqual(6, len(match_quality.users_a))
         self.assertEqual(6, len(match_quality.users_b))
         self.assertCountEqual(match_quality.users_in_match_group(), users)
+
+
+class MatchingAlgorithmsTest(TestCase):
+    pass
+
+
+class HarryPotterMatchingTest(MatchingAlgorithmsTest):
+    # Dump the fixture by:
+    # python manage.py dumpdata matcher --exclude matcher.vote --indent 2 > matcher/fixtures/<name>.json
+    # Then, consider de-personalizing the data.
+    # matcher.vote has been excluded because of unique constraint violation while importing the fixture (a bug?)
+    fixtures = ['harry_potter.json']
+    today = datetime(2021, 3, 3, 18)
+
+    def test_reads_all_users_in_fixture(self):
+        user_count = RouletteUser.objects.count()
+        self.assertEquals(14, user_count)

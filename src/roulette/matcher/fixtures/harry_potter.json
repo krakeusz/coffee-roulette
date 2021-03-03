@@ -1,0 +1,1658 @@
+[
+{
+  "model": "matcher.rouletteuser",
+  "pk": 1,
+  "fields": {
+    "name": "Harry Potter",
+    "email": "hp@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 2,
+  "fields": {
+    "name": "Hermione Granger",
+    "email": "hermione@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 3,
+  "fields": {
+    "name": "Ron Weasley",
+    "email": "ron@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 4,
+  "fields": {
+    "name": "Lord Voldemort",
+    "email": "voldemort@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 6,
+  "fields": {
+    "name": "Percy Weasley",
+    "email": "percy@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 8,
+  "fields": {
+    "name": "Luna Lovegood",
+    "email": "lunalovegood@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 9,
+  "fields": {
+    "name": "Draco Malfoy",
+    "email": "draco@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 10,
+  "fields": {
+    "name": "Godric Griffindor",
+    "email": "godric@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 11,
+  "fields": {
+    "name": "Ravena Ravenclaw",
+    "email": "ravena@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 12,
+  "fields": {
+    "name": "Salazar Slytherin",
+    "email": "salazar@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 13,
+  "fields": {
+    "name": "Helena Hufflepuff",
+    "email": "helena@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 14,
+  "fields": {
+    "name": "Cedric Diggory",
+    "email": "cedric@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 15,
+  "fields": {
+    "name": "Sirius Black",
+    "email": "sirius@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 16,
+  "fields": {
+    "name": "admin",
+    "email": "slacktest@example.com"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 1,
+  "fields": {
+    "vote_deadline": "2020-01-20T17:27:46Z",
+    "coffee_deadline": "2020-01-22T17:00:00Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 2,
+  "fields": {
+    "vote_deadline": "2020-01-26T17:50:03Z",
+    "coffee_deadline": "2020-01-31T17:50:08Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 3,
+  "fields": {
+    "vote_deadline": "2020-01-27T17:50:14Z",
+    "coffee_deadline": "2020-01-28T17:50:17Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 4,
+  "fields": {
+    "vote_deadline": "2020-01-28T16:19:24Z",
+    "coffee_deadline": "2020-01-29T16:19:28Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 5,
+  "fields": {
+    "vote_deadline": "2020-01-28T16:19:24Z",
+    "coffee_deadline": "2020-01-29T16:19:28Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 6,
+  "fields": {
+    "vote_deadline": "2020-01-28T16:20:37Z",
+    "coffee_deadline": "2020-01-29T16:20:44Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 7,
+  "fields": {
+    "vote_deadline": "2020-01-28T16:41:19Z",
+    "coffee_deadline": "2020-01-29T16:41:21Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 8,
+  "fields": {
+    "vote_deadline": "2020-01-28T19:11:29Z",
+    "coffee_deadline": "2020-01-29T17:14:53Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 9,
+  "fields": {
+    "vote_deadline": "2020-01-31T17:00:00Z",
+    "coffee_deadline": "2020-02-08T17:00:00Z",
+    "matchings_found_on": "2020-02-02T10:27:40.406Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 10,
+  "fields": {
+    "vote_deadline": "2020-02-02T10:33:54Z",
+    "coffee_deadline": "2020-02-03T10:31:04Z",
+    "matchings_found_on": "2020-02-02T10:34:53.949Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 11,
+  "fields": {
+    "vote_deadline": "2020-02-02T11:08:50Z",
+    "coffee_deadline": "2020-02-03T11:08:39Z",
+    "matchings_found_on": "2020-02-02T11:09:21.528Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 12,
+  "fields": {
+    "vote_deadline": "2020-02-02T11:10:07Z",
+    "coffee_deadline": "2020-02-03T11:10:12Z",
+    "matchings_found_on": "2020-02-02T11:10:32.792Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 13,
+  "fields": {
+    "vote_deadline": "2020-02-02T17:00:00Z",
+    "coffee_deadline": "2020-02-05T16:47:33Z",
+    "matchings_found_on": "2020-02-02T17:20:22.849Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 14,
+  "fields": {
+    "vote_deadline": "2020-02-02T17:57:59Z",
+    "coffee_deadline": "2020-02-03T17:13:09Z",
+    "matchings_found_on": "2020-02-02T20:11:57.716Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 15,
+  "fields": {
+    "vote_deadline": "2020-02-07T22:47:57Z",
+    "coffee_deadline": "2020-02-10T22:38:06Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 16,
+  "fields": {
+    "vote_deadline": "2020-02-15T11:49:08Z",
+    "coffee_deadline": "2020-02-22T11:49:12Z",
+    "matchings_found_on": "2020-02-15T13:50:36.958Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 17,
+  "fields": {
+    "vote_deadline": "2020-02-15T13:51:02Z",
+    "coffee_deadline": "2020-02-25T13:51:03Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 18,
+  "fields": {
+    "vote_deadline": "2020-02-25T18:56:04Z",
+    "coffee_deadline": "2020-03-03T18:56:11Z",
+    "matchings_found_on": "2020-03-03T21:11:56.004Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 19,
+  "fields": {
+    "vote_deadline": "2020-03-20T19:00:27Z",
+    "coffee_deadline": "2020-03-31T18:00:31Z",
+    "matchings_found_on": "2020-03-29T08:34:33.843Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 20,
+  "fields": {
+    "vote_deadline": "2020-03-03T21:10:38Z",
+    "coffee_deadline": "2020-03-14T19:25:00Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 21,
+  "fields": {
+    "vote_deadline": "2020-03-03T21:10:07Z",
+    "coffee_deadline": "2020-03-13T19:25:07Z",
+    "matchings_found_on": "2020-03-03T21:10:51.044Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 30,
+  "fields": {
+    "vote_deadline": "2020-05-14T10:00:00Z",
+    "coffee_deadline": "2020-05-16T10:00:00Z",
+    "matchings_found_on": "2020-05-15T13:24:11.372Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 31,
+  "fields": {
+    "vote_deadline": "2020-05-15T13:24:51Z",
+    "coffee_deadline": "2020-05-16T13:24:54Z",
+    "matchings_found_on": "2020-05-15T13:25:23.678Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 32,
+  "fields": {
+    "vote_deadline": "2020-05-15T13:27:57Z",
+    "coffee_deadline": "2020-05-16T13:27:59Z",
+    "matchings_found_on": "2020-05-15T13:28:27.871Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 33,
+  "fields": {
+    "vote_deadline": "2020-05-15T13:28:58Z",
+    "coffee_deadline": "2020-05-16T13:29:00Z",
+    "matchings_found_on": "2020-05-15T13:29:20.001Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 34,
+  "fields": {
+    "vote_deadline": "2020-05-15T14:30:03Z",
+    "coffee_deadline": "2020-05-23T16:00:00Z",
+    "matchings_found_on": "2020-05-15T14:30:24.222Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 35,
+  "fields": {
+    "vote_deadline": "2020-05-15T14:34:42Z",
+    "coffee_deadline": "2020-05-17T14:34:46Z",
+    "matchings_found_on": "2020-05-15T14:36:24.803Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 36,
+  "fields": {
+    "vote_deadline": "2020-05-15T14:50:27Z",
+    "coffee_deadline": "2020-05-16T14:50:29Z",
+    "matchings_found_on": "2020-05-15T14:50:55.252Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 37,
+  "fields": {
+    "vote_deadline": "2020-05-15T14:52:37Z",
+    "coffee_deadline": "2020-05-16T14:52:38Z",
+    "matchings_found_on": "2020-05-15T14:53:26.301Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 38,
+  "fields": {
+    "vote_deadline": "2020-05-15T18:27:19Z",
+    "coffee_deadline": "2020-05-16T18:27:21Z",
+    "matchings_found_on": "2020-05-15T18:33:00.459Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 39,
+  "fields": {
+    "vote_deadline": "2020-05-16T13:57:36Z",
+    "coffee_deadline": "2020-05-17T13:57:38Z",
+    "matchings_found_on": "2020-05-16T13:58:53.934Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 40,
+  "fields": {
+    "vote_deadline": "2020-05-16T14:05:40Z",
+    "coffee_deadline": "2020-05-17T14:05:43Z",
+    "matchings_found_on": "2020-05-16T14:06:14.795Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 41,
+  "fields": {
+    "vote_deadline": "2020-05-16T14:06:39Z",
+    "coffee_deadline": "2020-05-17T14:06:41Z",
+    "matchings_found_on": "2020-05-16T14:07:22.695Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 42,
+  "fields": {
+    "vote_deadline": "2020-05-17T13:54:23Z",
+    "coffee_deadline": "2020-05-18T13:54:25Z",
+    "matchings_found_on": "2020-05-17T13:55:19.756Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 43,
+  "fields": {
+    "vote_deadline": "2020-05-17T13:57:48Z",
+    "coffee_deadline": "2020-05-18T13:57:50Z",
+    "matchings_found_on": "2020-05-17T13:58:35.108Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 44,
+  "fields": {
+    "vote_deadline": "2020-05-17T14:00:29Z",
+    "coffee_deadline": "2020-05-18T14:00:31Z",
+    "matchings_found_on": "2020-05-17T14:00:57.661Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 45,
+  "fields": {
+    "vote_deadline": "2020-06-01T19:32:10Z",
+    "coffee_deadline": "2020-06-02T19:32:13Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 46,
+  "fields": {
+    "vote_deadline": "2020-06-01T19:39:28Z",
+    "coffee_deadline": "2020-06-02T19:39:30Z",
+    "matchings_found_on": "2020-06-01T19:45:49.088Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 47,
+  "fields": {
+    "vote_deadline": "2021-02-27T10:50:06Z",
+    "coffee_deadline": "2021-03-01T10:47:51Z",
+    "matchings_found_on": "2021-02-27T12:00:34.439Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 48,
+  "fields": {
+    "vote_deadline": "2021-02-27T12:01:33Z",
+    "coffee_deadline": "2021-02-28T12:01:36Z",
+    "matchings_found_on": "2021-02-27T12:02:14.651Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 49,
+  "fields": {
+    "vote_deadline": "2021-02-27T12:02:34Z",
+    "coffee_deadline": "2021-02-28T12:02:36Z",
+    "matchings_found_on": "2021-02-27T13:21:18.440Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 50,
+  "fields": {
+    "vote_deadline": "2021-02-27T13:21:27Z",
+    "coffee_deadline": "2021-02-28T13:21:29Z",
+    "matchings_found_on": "2021-02-27T13:25:37.241Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 51,
+  "fields": {
+    "vote_deadline": "2021-02-28T21:31:44Z",
+    "coffee_deadline": "2021-03-01T21:31:46Z",
+    "matchings_found_on": "2021-02-28T21:34:50.664Z"
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 1,
+  "fields": {
+    "user_a": 2,
+    "user_b": 4,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 2,
+  "fields": {
+    "user_a": 2,
+    "user_b": 3,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 3,
+  "fields": {
+    "user_a": 4,
+    "user_b": 2,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 4,
+  "fields": {
+    "user_a": 4,
+    "user_b": 3,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 5,
+  "fields": {
+    "user_a": 3,
+    "user_b": 2,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 6,
+  "fields": {
+    "user_a": 3,
+    "user_b": 4,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 7,
+  "fields": {
+    "user_a": 1,
+    "user_b": 6,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 8,
+  "fields": {
+    "user_a": 6,
+    "user_b": 1,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 9,
+  "fields": {
+    "user_a": 3,
+    "user_b": 4,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 10,
+  "fields": {
+    "user_a": 2,
+    "user_b": 4,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 11,
+  "fields": {
+    "user_a": 2,
+    "user_b": 3,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 12,
+  "fields": {
+    "user_a": 1,
+    "user_b": 6,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 13,
+  "fields": {
+    "user_a": 1,
+    "user_b": 6,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 14,
+  "fields": {
+    "user_a": 3,
+    "user_b": 4,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 15,
+  "fields": {
+    "user_a": 2,
+    "user_b": 4,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 16,
+  "fields": {
+    "user_a": 2,
+    "user_b": 3,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 17,
+  "fields": {
+    "user_a": 3,
+    "user_b": 4,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 18,
+  "fields": {
+    "user_a": 2,
+    "user_b": 4,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 19,
+  "fields": {
+    "user_a": 2,
+    "user_b": 3,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 20,
+  "fields": {
+    "user_a": 1,
+    "user_b": 6,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 21,
+  "fields": {
+    "user_a": 6,
+    "user_b": 10,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 22,
+  "fields": {
+    "user_a": 12,
+    "user_b": 15,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 23,
+  "fields": {
+    "user_a": 4,
+    "user_b": 9,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 24,
+  "fields": {
+    "user_a": 3,
+    "user_b": 8,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 25,
+  "fields": {
+    "user_a": 11,
+    "user_b": 13,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 26,
+  "fields": {
+    "user_a": 2,
+    "user_b": 14,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 27,
+  "fields": {
+    "user_a": 6,
+    "user_b": 11,
+    "roulette": 14
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 28,
+  "fields": {
+    "user_a": 3,
+    "user_b": 10,
+    "roulette": 14
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 29,
+  "fields": {
+    "user_a": 1,
+    "user_b": 9,
+    "roulette": 14
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 30,
+  "fields": {
+    "user_a": 12,
+    "user_b": 13,
+    "roulette": 14
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 31,
+  "fields": {
+    "user_a": 2,
+    "user_b": 13,
+    "roulette": 14
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 32,
+  "fields": {
+    "user_a": 2,
+    "user_b": 12,
+    "roulette": 14
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 33,
+  "fields": {
+    "user_a": 14,
+    "user_b": 15,
+    "roulette": 14
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 34,
+  "fields": {
+    "user_a": 4,
+    "user_b": 8,
+    "roulette": 14
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 35,
+  "fields": {
+    "user_a": 1,
+    "user_b": 13,
+    "roulette": 16
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 36,
+  "fields": {
+    "user_a": 2,
+    "user_b": 14,
+    "roulette": 16
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 37,
+  "fields": {
+    "user_a": 9,
+    "user_b": 12,
+    "roulette": 16
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 38,
+  "fields": {
+    "user_a": 6,
+    "user_b": 9,
+    "roulette": 16
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 39,
+  "fields": {
+    "user_a": 6,
+    "user_b": 12,
+    "roulette": 16
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 40,
+  "fields": {
+    "user_a": 1,
+    "user_b": 8,
+    "roulette": 21
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 41,
+  "fields": {
+    "user_a": 4,
+    "user_b": 9,
+    "roulette": 21
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 42,
+  "fields": {
+    "user_a": 3,
+    "user_b": 9,
+    "roulette": 21
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 43,
+  "fields": {
+    "user_a": 3,
+    "user_b": 4,
+    "roulette": 21
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 44,
+  "fields": {
+    "user_a": 2,
+    "user_b": 13,
+    "roulette": 21
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 45,
+  "fields": {
+    "user_a": 11,
+    "user_b": 14,
+    "roulette": 21
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 46,
+  "fields": {
+    "user_a": 12,
+    "user_b": 15,
+    "roulette": 21
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 47,
+  "fields": {
+    "user_a": 2,
+    "user_b": 4,
+    "roulette": 18
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 48,
+  "fields": {
+    "user_a": 1,
+    "user_b": 2,
+    "roulette": 18
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 49,
+  "fields": {
+    "user_a": 1,
+    "user_b": 4,
+    "roulette": 18
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 50,
+  "fields": {
+    "user_a": 1,
+    "user_b": 10,
+    "roulette": 19
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 51,
+  "fields": {
+    "user_a": 2,
+    "user_b": 8,
+    "roulette": 19
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 52,
+  "fields": {
+    "user_a": 10,
+    "user_b": 13,
+    "roulette": 30
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 53,
+  "fields": {
+    "user_a": 12,
+    "user_b": 16,
+    "roulette": 30
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 54,
+  "fields": {
+    "user_a": 11,
+    "user_b": 12,
+    "roulette": 30
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 55,
+  "fields": {
+    "user_a": 11,
+    "user_b": 16,
+    "roulette": 30
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 56,
+  "fields": {
+    "user_a": 10,
+    "user_b": 15,
+    "roulette": 31
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 57,
+  "fields": {
+    "user_a": 9,
+    "user_b": 10,
+    "roulette": 31
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 58,
+  "fields": {
+    "user_a": 9,
+    "user_b": 15,
+    "roulette": 31
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 59,
+  "fields": {
+    "user_a": 4,
+    "user_b": 12,
+    "roulette": 31
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 60,
+  "fields": {
+    "user_a": 3,
+    "user_b": 13,
+    "roulette": 32
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 61,
+  "fields": {
+    "user_a": 1,
+    "user_b": 14,
+    "roulette": 32
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 62,
+  "fields": {
+    "user_a": 1,
+    "user_b": 2,
+    "roulette": 33
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 63,
+  "fields": {
+    "user_a": 1,
+    "user_b": 9,
+    "roulette": 34
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 64,
+  "fields": {
+    "user_a": 10,
+    "user_b": 16,
+    "roulette": 34
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 65,
+  "fields": {
+    "user_a": 10,
+    "user_b": 14,
+    "roulette": 34
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 66,
+  "fields": {
+    "user_a": 14,
+    "user_b": 16,
+    "roulette": 34
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 67,
+  "fields": {
+    "user_a": 9,
+    "user_b": 14,
+    "roulette": 35
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 68,
+  "fields": {
+    "user_a": 9,
+    "user_b": 16,
+    "roulette": 35
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 69,
+  "fields": {
+    "user_a": 14,
+    "user_b": 16,
+    "roulette": 35
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 70,
+  "fields": {
+    "user_a": 1,
+    "user_b": 10,
+    "roulette": 35
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 71,
+  "fields": {
+    "user_a": 10,
+    "user_b": 14,
+    "roulette": 36
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 72,
+  "fields": {
+    "user_a": 9,
+    "user_b": 10,
+    "roulette": 36
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 73,
+  "fields": {
+    "user_a": 9,
+    "user_b": 14,
+    "roulette": 36
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 74,
+  "fields": {
+    "user_a": 1,
+    "user_b": 16,
+    "roulette": 36
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 75,
+  "fields": {
+    "user_a": 1,
+    "user_b": 14,
+    "roulette": 37
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 76,
+  "fields": {
+    "user_a": 9,
+    "user_b": 16,
+    "roulette": 37
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 77,
+  "fields": {
+    "user_a": 9,
+    "user_b": 10,
+    "roulette": 37
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 78,
+  "fields": {
+    "user_a": 10,
+    "user_b": 16,
+    "roulette": 37
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 79,
+  "fields": {
+    "user_a": 3,
+    "user_b": 4,
+    "roulette": 38
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 80,
+  "fields": {
+    "user_a": 10,
+    "user_b": 16,
+    "roulette": 39
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 81,
+  "fields": {
+    "user_a": 9,
+    "user_b": 11,
+    "roulette": 39
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 82,
+  "fields": {
+    "user_a": 2,
+    "user_b": 16,
+    "roulette": 40
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 83,
+  "fields": {
+    "user_a": 3,
+    "user_b": 15,
+    "roulette": 40
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 84,
+  "fields": {
+    "user_a": 3,
+    "user_b": 9,
+    "roulette": 41
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 85,
+  "fields": {
+    "user_a": 4,
+    "user_b": 16,
+    "roulette": 41
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 86,
+  "fields": {
+    "user_a": 10,
+    "user_b": 16,
+    "roulette": 42
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 87,
+  "fields": {
+    "user_a": 8,
+    "user_b": 16,
+    "roulette": 42
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 88,
+  "fields": {
+    "user_a": 8,
+    "user_b": 10,
+    "roulette": 42
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 89,
+  "fields": {
+    "user_a": 4,
+    "user_b": 9,
+    "roulette": 43
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 90,
+  "fields": {
+    "user_a": 3,
+    "user_b": 16,
+    "roulette": 43
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 91,
+  "fields": {
+    "user_a": 4,
+    "user_b": 16,
+    "roulette": 44
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 92,
+  "fields": {
+    "user_a": 3,
+    "user_b": 9,
+    "roulette": 44
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 93,
+  "fields": {
+    "user_a": 3,
+    "user_b": 16,
+    "roulette": 46
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 94,
+  "fields": {
+    "user_a": 2,
+    "user_b": 4,
+    "roulette": 46
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 95,
+  "fields": {
+    "user_a": 6,
+    "user_b": 13,
+    "roulette": 47
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 96,
+  "fields": {
+    "user_a": 4,
+    "user_b": 14,
+    "roulette": 47
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 97,
+  "fields": {
+    "user_a": 1,
+    "user_b": 15,
+    "roulette": 47
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 98,
+  "fields": {
+    "user_a": 1,
+    "user_b": 11,
+    "roulette": 47
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 99,
+  "fields": {
+    "user_a": 11,
+    "user_b": 15,
+    "roulette": 47
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 100,
+  "fields": {
+    "user_a": 8,
+    "user_b": 9,
+    "roulette": 47
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 101,
+  "fields": {
+    "user_a": 3,
+    "user_b": 12,
+    "roulette": 47
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 102,
+  "fields": {
+    "user_a": 2,
+    "user_b": 10,
+    "roulette": 47
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 103,
+  "fields": {
+    "user_a": 2,
+    "user_b": 9,
+    "roulette": 48
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 104,
+  "fields": {
+    "user_a": 6,
+    "user_b": 8,
+    "roulette": 48
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 105,
+  "fields": {
+    "user_a": 1,
+    "user_b": 12,
+    "roulette": 48
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 106,
+  "fields": {
+    "user_a": 4,
+    "user_b": 10,
+    "roulette": 48
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 107,
+  "fields": {
+    "user_a": 3,
+    "user_b": 11,
+    "roulette": 48
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 108,
+  "fields": {
+    "user_a": 1,
+    "user_b": 8,
+    "roulette": 49
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 109,
+  "fields": {
+    "user_a": 3,
+    "user_b": 4,
+    "roulette": 49
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 110,
+  "fields": {
+    "user_a": 2,
+    "user_b": 6,
+    "roulette": 49
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 111,
+  "fields": {
+    "user_a": 4,
+    "user_b": 6,
+    "roulette": 50
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 112,
+  "fields": {
+    "user_a": 3,
+    "user_b": 10,
+    "roulette": 50
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 113,
+  "fields": {
+    "user_a": 1,
+    "user_b": 9,
+    "roulette": 50
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 114,
+  "fields": {
+    "user_a": 2,
+    "user_b": 8,
+    "roulette": 50
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 115,
+  "fields": {
+    "user_a": 2,
+    "user_b": 11,
+    "roulette": 50
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 116,
+  "fields": {
+    "user_a": 8,
+    "user_b": 11,
+    "roulette": 50
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 117,
+  "fields": {
+    "user_a": 4,
+    "user_b": 11,
+    "roulette": 51
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 118,
+  "fields": {
+    "user_a": 2,
+    "user_b": 15,
+    "roulette": 51
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 119,
+  "fields": {
+    "user_a": 3,
+    "user_b": 8,
+    "roulette": 51
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 120,
+  "fields": {
+    "user_a": 1,
+    "user_b": 10,
+    "roulette": 51
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 1,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      1,
+      4
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 2,
+  "fields": {
+    "custom_name": "The main characters",
+    "users": [
+      1,
+      2,
+      3
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 1,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      1,
+      2,
+      3,
+      6
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 2,
+  "fields": {
+    "custom_name": "The house heads",
+    "users": [
+      10,
+      11,
+      12,
+      13
+    ]
+  }
+},
+{
+  "model": "matcher.penaltyforrecentmatch",
+  "pk": 1,
+  "fields": {
+    "penalty": 1.0
+  }
+},
+{
+  "model": "matcher.penaltyfornumberofmatches",
+  "pk": 3,
+  "fields": {
+    "penalty": 0.5
+  }
+},
+{
+  "model": "matcher.penaltyforpenaltygroup",
+  "pk": 1,
+  "fields": {
+    "penalty": 2.0
+  }
+},
+{
+  "model": "matcher.penaltyforgroupingwithforbiddenuser",
+  "pk": 1,
+  "fields": {
+    "penalty": 10.0
+  }
+}
+]

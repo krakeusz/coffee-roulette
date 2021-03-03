@@ -1,4 +1,4 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import Q
@@ -314,7 +314,7 @@ A graph, where vertices are the users, and the edges have weights - the bigger t
 MatchingGraph = List[MatchingGraphVertex]
 
 
-def matching_graph(users: List[RouletteUser]) -> MatchingGraph:
+def matching_graph(users: List[RouletteUser], custom_current_datetime: Optional[datetime] = None) -> MatchingGraph:
     graph = []
     penalty_for_penalty_group = PenaltyForPenaltyGroup.objects.get_or_create()[
         0].penalty
@@ -323,7 +323,11 @@ def matching_graph(users: List[RouletteUser]) -> MatchingGraph:
     penalty_for_recent_match = PenaltyForRecentMatch.objects.get_or_create()[
         0].penalty
 
-    now = timezone.now()
+    if custom_current_datetime is None:
+        current_datetime = timezone.now()
+    else:
+        current_datetime = custom_current_datetime
+
     for user in users:
         user_ids_excluded = set()
         user_ids_excluded.add(user.id)
@@ -361,9 +365,9 @@ def matching_graph(users: List[RouletteUser]) -> MatchingGraph:
                 penalty_for_number_matches
             # Penalties for recent matches
             recent_user_user2_matches = user_user2_matches.filter(
-                roulette__matchings_found_on__gte=now - timedelta(days=365)).all()
+                roulette__matchings_found_on__gte=current_datetime - timedelta(days=365)).all()
             for match in recent_user_user2_matches:
-                time_passed = now - match.roulette.matchings_found_on
+                time_passed = current_datetime - match.roulette.matchings_found_on
                 days_passed = time_passed.days
                 recent_match = RecentMatchInfo()
                 recent_match.penalty = max(0.0, penalty_for_recent_match *
