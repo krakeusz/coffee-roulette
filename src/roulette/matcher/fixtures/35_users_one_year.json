@@ -1,0 +1,2112 @@
+[
+{
+  "model": "matcher.rouletteuser",
+  "pk": 1,
+  "fields": {
+    "name": "1",
+    "email": "1@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 2,
+  "fields": {
+    "name": "2",
+    "email": "2@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 3,
+  "fields": {
+    "name": "3",
+    "email": "3@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 4,
+  "fields": {
+    "name": "4",
+    "email": "4@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 5,
+  "fields": {
+    "name": "5",
+    "email": "5@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 6,
+  "fields": {
+    "name": "6",
+    "email": "6@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 7,
+  "fields": {
+    "name": "7",
+    "email": "7@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 8,
+  "fields": {
+    "name": "8",
+    "email": "8@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 9,
+  "fields": {
+    "name": "9",
+    "email": "9@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 10,
+  "fields": {
+    "name": "10",
+    "email": "10@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 11,
+  "fields": {
+    "name": "11",
+    "email": "11@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 12,
+  "fields": {
+    "name": "12",
+    "email": "12@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 13,
+  "fields": {
+    "name": "13",
+    "email": "13@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 14,
+  "fields": {
+    "name": "14",
+    "email": "14@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 15,
+  "fields": {
+    "name": "15",
+    "email": "15@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 16,
+  "fields": {
+    "name": "16",
+    "email": "16@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 17,
+  "fields": {
+    "name": "17",
+    "email": "17@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 18,
+  "fields": {
+    "name": "18",
+    "email": "18@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 19,
+  "fields": {
+    "name": "19",
+    "email": "19@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 20,
+  "fields": {
+    "name": "20",
+    "email": "20@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 21,
+  "fields": {
+    "name": "21",
+    "email": "21@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 22,
+  "fields": {
+    "name": "22",
+    "email": "22@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 23,
+  "fields": {
+    "name": "23",
+    "email": "23@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 24,
+  "fields": {
+    "name": "24",
+    "email": "24@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 25,
+  "fields": {
+    "name": "25",
+    "email": "25@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 26,
+  "fields": {
+    "name": "26",
+    "email": "26@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 27,
+  "fields": {
+    "name": "27",
+    "email": "27@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 28,
+  "fields": {
+    "name": "28",
+    "email": "28@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 29,
+  "fields": {
+    "name": "29",
+    "email": "29@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 30,
+  "fields": {
+    "name": "30",
+    "email": "30@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 31,
+  "fields": {
+    "name": "31",
+    "email": "31@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 32,
+  "fields": {
+    "name": "32",
+    "email": "32@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 33,
+  "fields": {
+    "name": "33",
+    "email": "33@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 34,
+  "fields": {
+    "name": "34",
+    "email": "34@example.com"
+  }
+},
+{
+  "model": "matcher.rouletteuser",
+  "pk": 35,
+  "fields": {
+    "name": "35",
+    "email": "35@example.com"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 3,
+  "fields": {
+    "vote_deadline": "2020-02-07T15:00:00Z",
+    "coffee_deadline": "2020-02-14T15:00:00Z",
+    "matchings_found_on": "2020-02-09T17:02:42.895Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 4,
+  "fields": {
+    "vote_deadline": "2020-02-24T09:03:34Z",
+    "coffee_deadline": "2020-02-28T15:00:00Z",
+    "matchings_found_on": "2020-02-24T09:13:17.670Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 5,
+  "fields": {
+    "vote_deadline": "2020-03-30T11:17:51Z",
+    "coffee_deadline": "2020-04-03T14:00:00Z",
+    "matchings_found_on": "2020-03-30T11:21:58.534Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 6,
+  "fields": {
+    "vote_deadline": "2020-04-17T14:00:00Z",
+    "coffee_deadline": "2020-04-24T14:00:00Z",
+    "matchings_found_on": null
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 7,
+  "fields": {
+    "vote_deadline": "2020-05-11T09:32:17Z",
+    "coffee_deadline": "2020-05-15T16:00:00Z",
+    "matchings_found_on": "2020-05-11T11:06:13.971Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 8,
+  "fields": {
+    "vote_deadline": "2020-06-22T10:41:09Z",
+    "coffee_deadline": "2020-06-26T16:00:00Z",
+    "matchings_found_on": "2020-06-22T10:50:07.744Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 9,
+  "fields": {
+    "vote_deadline": "2020-07-27T18:02:43Z",
+    "coffee_deadline": "2020-07-31T18:02:59Z",
+    "matchings_found_on": "2020-07-27T18:13:05.788Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 10,
+  "fields": {
+    "vote_deadline": "2020-09-14T08:00:00Z",
+    "coffee_deadline": "2020-09-18T14:00:00Z",
+    "matchings_found_on": "2020-09-14T08:35:07.188Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 11,
+  "fields": {
+    "vote_deadline": "2020-10-22T08:00:00Z",
+    "coffee_deadline": "2020-10-27T15:00:00Z",
+    "matchings_found_on": "2020-10-22T08:25:13.279Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 12,
+  "fields": {
+    "vote_deadline": "2020-11-23T09:00:00Z",
+    "coffee_deadline": "2020-11-27T17:00:00Z",
+    "matchings_found_on": "2020-11-23T09:34:52.951Z"
+  }
+},
+{
+  "model": "matcher.roulette",
+  "pk": 13,
+  "fields": {
+    "vote_deadline": "2021-01-25T09:00:00Z",
+    "coffee_deadline": "2021-01-29T17:00:00Z",
+    "matchings_found_on": "2021-01-25T09:09:55.433Z"
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 1,
+  "fields": {
+    "user_a": 6,
+    "user_b": 24,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 2,
+  "fields": {
+    "user_a": 18,
+    "user_b": 19,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 3,
+  "fields": {
+    "user_a": 7,
+    "user_b": 17,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 4,
+  "fields": {
+    "user_a": 5,
+    "user_b": 11,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 5,
+  "fields": {
+    "user_a": 3,
+    "user_b": 4,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 6,
+  "fields": {
+    "user_a": 9,
+    "user_b": 20,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 7,
+  "fields": {
+    "user_a": 12,
+    "user_b": 21,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 8,
+  "fields": {
+    "user_a": 15,
+    "user_b": 25,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 9,
+  "fields": {
+    "user_a": 10,
+    "user_b": 15,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 10,
+  "fields": {
+    "user_a": 10,
+    "user_b": 25,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 11,
+  "fields": {
+    "user_a": 1,
+    "user_b": 14,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 12,
+  "fields": {
+    "user_a": 16,
+    "user_b": 22,
+    "roulette": 3
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 13,
+  "fields": {
+    "user_a": 9,
+    "user_b": 14,
+    "roulette": 4
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 14,
+  "fields": {
+    "user_a": 5,
+    "user_b": 10,
+    "roulette": 4
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 15,
+  "fields": {
+    "user_a": 1,
+    "user_b": 20,
+    "roulette": 4
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 16,
+  "fields": {
+    "user_a": 6,
+    "user_b": 16,
+    "roulette": 4
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 17,
+  "fields": {
+    "user_a": 7,
+    "user_b": 25,
+    "roulette": 4
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 18,
+  "fields": {
+    "user_a": 11,
+    "user_b": 17,
+    "roulette": 4
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 19,
+  "fields": {
+    "user_a": 15,
+    "user_b": 24,
+    "roulette": 4
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 20,
+  "fields": {
+    "user_a": 12,
+    "user_b": 18,
+    "roulette": 4
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 21,
+  "fields": {
+    "user_a": 4,
+    "user_b": 21,
+    "roulette": 4
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 22,
+  "fields": {
+    "user_a": 12,
+    "user_b": 20,
+    "roulette": 5
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 23,
+  "fields": {
+    "user_a": 3,
+    "user_b": 17,
+    "roulette": 5
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 24,
+  "fields": {
+    "user_a": 7,
+    "user_b": 15,
+    "roulette": 5
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 25,
+  "fields": {
+    "user_a": 16,
+    "user_b": 25,
+    "roulette": 5
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 26,
+  "fields": {
+    "user_a": 14,
+    "user_b": 16,
+    "roulette": 5
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 27,
+  "fields": {
+    "user_a": 14,
+    "user_b": 25,
+    "roulette": 5
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 28,
+  "fields": {
+    "user_a": 1,
+    "user_b": 6,
+    "roulette": 5
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 29,
+  "fields": {
+    "user_a": 11,
+    "user_b": 21,
+    "roulette": 5
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 30,
+  "fields": {
+    "user_a": 18,
+    "user_b": 24,
+    "roulette": 5
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 31,
+  "fields": {
+    "user_a": 10,
+    "user_b": 26,
+    "roulette": 5
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 32,
+  "fields": {
+    "user_a": 4,
+    "user_b": 19,
+    "roulette": 5
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 33,
+  "fields": {
+    "user_a": 5,
+    "user_b": 17,
+    "roulette": 7
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 34,
+  "fields": {
+    "user_a": 1,
+    "user_b": 19,
+    "roulette": 7
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 35,
+  "fields": {
+    "user_a": 3,
+    "user_b": 25,
+    "roulette": 7
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 36,
+  "fields": {
+    "user_a": 6,
+    "user_b": 21,
+    "roulette": 7
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 37,
+  "fields": {
+    "user_a": 22,
+    "user_b": 28,
+    "roulette": 7
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 38,
+  "fields": {
+    "user_a": 16,
+    "user_b": 26,
+    "roulette": 7
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 39,
+  "fields": {
+    "user_a": 15,
+    "user_b": 16,
+    "roulette": 7
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 40,
+  "fields": {
+    "user_a": 15,
+    "user_b": 26,
+    "roulette": 7
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 41,
+  "fields": {
+    "user_a": 11,
+    "user_b": 12,
+    "roulette": 7
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 42,
+  "fields": {
+    "user_a": 20,
+    "user_b": 27,
+    "roulette": 7
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 43,
+  "fields": {
+    "user_a": 14,
+    "user_b": 24,
+    "roulette": 7
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 44,
+  "fields": {
+    "user_a": 6,
+    "user_b": 11,
+    "roulette": 8
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 45,
+  "fields": {
+    "user_a": 12,
+    "user_b": 25,
+    "roulette": 8
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 46,
+  "fields": {
+    "user_a": 14,
+    "user_b": 21,
+    "roulette": 8
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 47,
+  "fields": {
+    "user_a": 3,
+    "user_b": 9,
+    "roulette": 8
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 48,
+  "fields": {
+    "user_a": 5,
+    "user_b": 28,
+    "roulette": 8
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 49,
+  "fields": {
+    "user_a": 24,
+    "user_b": 27,
+    "roulette": 8
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 50,
+  "fields": {
+    "user_a": 1,
+    "user_b": 24,
+    "roulette": 8
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 51,
+  "fields": {
+    "user_a": 1,
+    "user_b": 27,
+    "roulette": 8
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 52,
+  "fields": {
+    "user_a": 7,
+    "user_b": 19,
+    "roulette": 8
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 53,
+  "fields": {
+    "user_a": 20,
+    "user_b": 26,
+    "roulette": 8
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 54,
+  "fields": {
+    "user_a": 3,
+    "user_b": 28,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 55,
+  "fields": {
+    "user_a": 14,
+    "user_b": 32,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 56,
+  "fields": {
+    "user_a": 17,
+    "user_b": 20,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 57,
+  "fields": {
+    "user_a": 1,
+    "user_b": 31,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 58,
+  "fields": {
+    "user_a": 10,
+    "user_b": 30,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 59,
+  "fields": {
+    "user_a": 5,
+    "user_b": 25,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 60,
+  "fields": {
+    "user_a": 7,
+    "user_b": 27,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 61,
+  "fields": {
+    "user_a": 21,
+    "user_b": 24,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 62,
+  "fields": {
+    "user_a": 11,
+    "user_b": 19,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 63,
+  "fields": {
+    "user_a": 6,
+    "user_b": 29,
+    "roulette": 9
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 64,
+  "fields": {
+    "user_a": 24,
+    "user_b": 31,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 65,
+  "fields": {
+    "user_a": 16,
+    "user_b": 33,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 66,
+  "fields": {
+    "user_a": 16,
+    "user_b": 20,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 67,
+  "fields": {
+    "user_a": 20,
+    "user_b": 33,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 68,
+  "fields": {
+    "user_a": 11,
+    "user_b": 18,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 69,
+  "fields": {
+    "user_a": 12,
+    "user_b": 30,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 70,
+  "fields": {
+    "user_a": 14,
+    "user_b": 29,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 71,
+  "fields": {
+    "user_a": 9,
+    "user_b": 19,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 72,
+  "fields": {
+    "user_a": 6,
+    "user_b": 7,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 73,
+  "fields": {
+    "user_a": 5,
+    "user_b": 32,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 74,
+  "fields": {
+    "user_a": 1,
+    "user_b": 3,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 75,
+  "fields": {
+    "user_a": 15,
+    "user_b": 27,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 76,
+  "fields": {
+    "user_a": 17,
+    "user_b": 26,
+    "roulette": 10
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 77,
+  "fields": {
+    "user_a": 19,
+    "user_b": 29,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 78,
+  "fields": {
+    "user_a": 11,
+    "user_b": 14,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 79,
+  "fields": {
+    "user_a": 22,
+    "user_b": 24,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 80,
+  "fields": {
+    "user_a": 30,
+    "user_b": 34,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 81,
+  "fields": {
+    "user_a": 3,
+    "user_b": 26,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 82,
+  "fields": {
+    "user_a": 5,
+    "user_b": 33,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 83,
+  "fields": {
+    "user_a": 9,
+    "user_b": 15,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 84,
+  "fields": {
+    "user_a": 7,
+    "user_b": 28,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 85,
+  "fields": {
+    "user_a": 13,
+    "user_b": 32,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 86,
+  "fields": {
+    "user_a": 1,
+    "user_b": 17,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 87,
+  "fields": {
+    "user_a": 18,
+    "user_b": 20,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 88,
+  "fields": {
+    "user_a": 6,
+    "user_b": 25,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 89,
+  "fields": {
+    "user_a": 12,
+    "user_b": 31,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 90,
+  "fields": {
+    "user_a": 16,
+    "user_b": 27,
+    "roulette": 11
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 91,
+  "fields": {
+    "user_a": 1,
+    "user_b": 29,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 92,
+  "fields": {
+    "user_a": 1,
+    "user_b": 11,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 93,
+  "fields": {
+    "user_a": 11,
+    "user_b": 29,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 94,
+  "fields": {
+    "user_a": 14,
+    "user_b": 34,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 95,
+  "fields": {
+    "user_a": 31,
+    "user_b": 33,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 96,
+  "fields": {
+    "user_a": 6,
+    "user_b": 15,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 97,
+  "fields": {
+    "user_a": 27,
+    "user_b": 30,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 98,
+  "fields": {
+    "user_a": 20,
+    "user_b": 24,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 99,
+  "fields": {
+    "user_a": 17,
+    "user_b": 19,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 100,
+  "fields": {
+    "user_a": 25,
+    "user_b": 28,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 101,
+  "fields": {
+    "user_a": 3,
+    "user_b": 32,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 102,
+  "fields": {
+    "user_a": 5,
+    "user_b": 26,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 103,
+  "fields": {
+    "user_a": 9,
+    "user_b": 12,
+    "roulette": 12
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 104,
+  "fields": {
+    "user_a": 24,
+    "user_b": 33,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 105,
+  "fields": {
+    "user_a": 29,
+    "user_b": 30,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 106,
+  "fields": {
+    "user_a": 1,
+    "user_b": 5,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 107,
+  "fields": {
+    "user_a": 6,
+    "user_b": 32,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 108,
+  "fields": {
+    "user_a": 3,
+    "user_b": 11,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 109,
+  "fields": {
+    "user_a": 14,
+    "user_b": 35,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 110,
+  "fields": {
+    "user_a": 22,
+    "user_b": 34,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 111,
+  "fields": {
+    "user_a": 26,
+    "user_b": 27,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 112,
+  "fields": {
+    "user_a": 19,
+    "user_b": 25,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.match",
+  "pk": 113,
+  "fields": {
+    "user_a": 21,
+    "user_b": 28,
+    "roulette": 13
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 1,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      2,
+      3,
+      5
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 2,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      3,
+      5,
+      6,
+      12,
+      13,
+      14,
+      19,
+      27
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 3,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      6,
+      14
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 4,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      2,
+      14
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 5,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      14,
+      17
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 6,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      1,
+      12
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 7,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      3,
+      12
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 8,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      4,
+      12
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 9,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      7,
+      12
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 10,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      3,
+      8
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 11,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      10,
+      13
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 12,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      11,
+      13
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 13,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      12,
+      13
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 14,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      12,
+      14,
+      15
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 15,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      8,
+      16
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 16,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      17,
+      18
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 17,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      12,
+      19
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 18,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      5,
+      21
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 19,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      13,
+      23
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 20,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      5,
+      24
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 21,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      13,
+      25
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 22,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      20,
+      22
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 23,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      12,
+      22
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 24,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      5,
+      9
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 25,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      10,
+      16
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 26,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      15,
+      21
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 27,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      14,
+      26
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 28,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      9,
+      27
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 29,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      14,
+      28
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 48,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      9,
+      29
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 49,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      12,
+      14,
+      33
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 50,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      3,
+      19,
+      34
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 51,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      30,
+      31,
+      32
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 52,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      14,
+      20
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 53,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      17,
+      21
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 54,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      25,
+      35
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 55,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      3,
+      35
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 56,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      12,
+      35
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 57,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      34,
+      35
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 58,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      33,
+      35
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 59,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      32,
+      35
+    ]
+  }
+},
+{
+  "model": "matcher.exclusiongroup",
+  "pk": 60,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      8,
+      35
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 1,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      1,
+      8,
+      9
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 2,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      14,
+      20,
+      22
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 3,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      5,
+      7,
+      15,
+      23,
+      24,
+      29
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 5,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      20,
+      22
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 6,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      1,
+      8,
+      9
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 8,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      1,
+      25,
+      30,
+      32
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 9,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      2,
+      3,
+      5,
+      6,
+      14,
+      15,
+      19,
+      20,
+      30
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 11,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      17,
+      18,
+      22,
+      25,
+      32
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 12,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      13,
+      24
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 13,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      7,
+      10,
+      16,
+      21
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 14,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      6,
+      12,
+      14,
+      19,
+      26,
+      28,
+      33
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 15,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      18,
+      21
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 16,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      9,
+      10
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 17,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      2,
+      8
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 18,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      10,
+      27
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 19,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      18,
+      21
+    ]
+  }
+},
+{
+  "model": "matcher.penaltygroup",
+  "pk": 20,
+  "fields": {
+    "custom_name": "",
+    "users": [
+      31,
+      35
+    ]
+  }
+},
+{
+  "model": "matcher.penaltyforrecentmatch",
+  "pk": 1,
+  "fields": {
+    "penalty": 2.0
+  }
+},
+{
+  "model": "matcher.penaltyfornumberofmatches",
+  "pk": 1,
+  "fields": {
+    "penalty": 1.5
+  }
+},
+{
+  "model": "matcher.penaltyforpenaltygroup",
+  "pk": 1,
+  "fields": {
+    "penalty": 2.0
+  }
+},
+{
+  "model": "matcher.penaltyforgroupingwithforbiddenuser",
+  "pk": 1,
+  "fields": {
+    "penalty": 10.0
+  }
+}
+]
