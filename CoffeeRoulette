@@ -1,0 +1,11 @@
+#!/bin/bash
+# A script that runs coffee roulette server. Its name should match the folder name it's in, for the macOS system to find it seamlessly. Put the whole folder into Applications directory.
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+set -e
+set -x
+cd "$SCRIPT_DIR"
+source bin/activate
+cd src/roulette
+python3 manage.py runserver &> ../../runserver.log &
+sleep 5
+open http://localhost:8000
