@@ -135,3 +135,4 @@ slackbot_local.py
 .vscode/
 bin/
 pyvenv.cfg
+backups/

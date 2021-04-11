@@ -7,6 +7,7 @@ from django.views.decorators.http import require_POST
 from .algorithms import generate_matches_montecarlo, get_matches_quality, merge_matches
 from .models import Match, Roulette, RouletteUser, PenaltyForGroupingWithForbiddenUser, matching_graph
 from .signals import post_matching
+from typing import List, Tuple
 import re
 
 # TODO all the views should be accessible only after login
@@ -114,5 +115,28 @@ def submit_roulette(request, roulette_id):
     transaction.set_autocommit(autocommit)
     if exception is None:
         return HttpResponseRedirect(reverse('matcher:roulette', args=(r.id,)))
+    else:
+        raise exception
+
+# A debug method, for adding matches to an existing roulette
+def fix_roulette(roulette_id: int, matches: List[Tuple[RouletteUser]]):
+    autocommit = transaction.get_autocommit()
+    transaction.set_autocommit(False)
+    exception = None
+    try:
+        r = Roulette.objects.select_for_update().get(id=roulette_id)
+        if not r.canAdminGenerateMatches():
+            raise Exception("Someone else has already saved the results")
+        r.matchings_found_on = timezone.now()
+        r.save()
+        for user_a, user_b in matches:
+            Match.objects.create(user_a=user_a, user_b=user_b, roulette=r)
+        transaction.commit()
+    except Exception as e:
+        exception = e
+        transaction.rollback()
+    transaction.set_autocommit(autocommit)
+    if exception is None:
+        return "OK"
     else:
         raise exception
